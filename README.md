@@ -8,7 +8,7 @@ Bot for /r/scuba Discord
 ## Usage
 Before starting the bot up, make sure to set up a bot account first! You can do that in the Developer section on Discord's website. Userbots are against Discord's Terms of Service!
 
-Once you have that, take your bot account's Token and put it into `bot.py`.
+Once you have that, take your bot account's Token and put it into a file named 'token' in the same directory as bot.py.
 
 ## To-do list
 - [ ] Unit conversion between commonly used units
