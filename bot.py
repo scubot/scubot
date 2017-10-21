@@ -15,8 +15,7 @@ def parse_units(message):
             string = message_regex.group(0) + ' is '
             current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
             converted_value = current_value * unit.conversionValue
-            return string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[
-                unit.name]
+            return string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[unit.name]
     return ''
 
 
