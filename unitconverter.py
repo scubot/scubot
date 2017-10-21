@@ -1,26 +1,12 @@
-def meters_to_feet(meters):
-    return meters * 3.28084
+from collections import namedtuple
 
+Unit = namedtuple("Unit", "name prefix conversionValue")
 
-def feet_to_meters(feet):
-    return feet / 3.28084
+Units = [Unit("feet", "ft", 0.3048), Unit("meters", "m", 3.28084), Unit("pounds", "lbs", 0.453592),
+         Unit("kilograms", "kg", 2.20462), Unit("fathoms", "fsw", 1.8288)]
 
-
-def kilograms_to_pounds(kilograms):
-    return kilograms * 2.20462
-
-
-def pounds_to_kilograms(pounds):
-    return pounds / 2.20462
-
-
-def bar_to_psi(bar):
-    return bar * 14.5038
-
-
-def psi_to_bar(psi):
-    return psi / 14.5038
-
-
-def fathoms_to_meters(fathoms):
-    return fathoms * 1.8288
+UnitPairs = {'feet': 'meters',
+             'meters': 'feet',
+             'pounds': 'kilograms',
+             'kilograms': 'pounds',
+             'fathoms': 'meters'}
