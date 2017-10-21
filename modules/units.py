@@ -19,6 +19,7 @@ UnitPairs = {'feet': 'meters',
 unitsTriggerString = '!convert'
 historyLimit = 10
 
+
 async def parse_units_command(message, client):
     bulk = False
     channel = message.channel
@@ -30,21 +31,32 @@ async def parse_units_command(message, client):
                 if msg.author != client.user:
                     send_message = parse_units(msg, unit)
                     if send_message != '':
-                        await client.send_message(message.channel, send_message)
+                        messages = send_message.split(',')
+                        for send in messages:
+                            await client.send_message(message.channel, send)
                         if not bulk:
                             break
     else:
         for unit in Units:
             send_message = parse_units(message, unit)
             if send_message != '':
-                await client.send_message(message.channel, send_message)
+                messages = send_message.split(',')
+                for send in messages:
+                    await client.send_message(message.channel, send)
 
 
 def parse_units(message, unit):
     if re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
-        message_regex = re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
-        string = message_regex.group(0) + ' is '
-        current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
-        converted_value = current_value * unit.conversionValue
-        return string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[unit.name]
+        response = ''
+        loopCount = 0
+        message_regex = re.finditer('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
+        for match in message_regex:
+            loopCount += 1
+            string = match.group(0) + ' is '
+            current_value = int(match.group(0).replace(match.group(2), ''))
+            converted_value = current_value * unit.conversionValue
+            if loopCount > 1:
+                response += ','  # we split up into multiple messages later
+            response += string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[unit.name]
+        return response
     return ''
