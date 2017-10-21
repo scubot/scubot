@@ -48,14 +48,14 @@ async def parse_units_command(message, client):
 def parse_units(message, unit):
     if re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
         response = ''
-        loopCount = 0
+        loop_count = 0
         message_regex = re.finditer('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
         for match in message_regex:
-            loopCount += 1
+            loop_count += 1
             string = match.group(0) + ' is '
             current_value = int(match.group(0).replace(match.group(2), ''))
             converted_value = current_value * unit.conversionValue
-            if loopCount > 1:
+            if loop_count > 1:
                 response += ','  # we split up into multiple messages later
             response += string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[unit.name]
         return response
