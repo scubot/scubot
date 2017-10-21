@@ -39,6 +39,7 @@ async def on_message(message):
                 send_message = parse_units(msg)
                 if send_message != '':
                     await client.send_message(message.channel, send_message)
+                    break
         else:
             parse_units(message)
     else:
