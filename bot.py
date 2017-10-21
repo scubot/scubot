@@ -1,6 +1,7 @@
 import discord
 
 from modules.units import *
+from modules.roles import *
 
 client = discord.Client()
 
@@ -15,6 +16,9 @@ async def on_message(message):
 
     elif message.content.startswith(unitsTriggerString):
         await parse_units_command(message, client)
+        
+    elif message.content.startswith(rolesTriggerString):
+        await parse_roles_command(message, client)
 
 
 @client.event
