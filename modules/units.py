@@ -26,23 +26,25 @@ async def parse_units_command(message, client):
         bulk = True
     if message.content == unitsTriggerString or message.content == unitsTriggerString + ' all':
         async for msg in client.logs_from(channel, limit=historyLimit):
-            if msg.author != client.user:
-                send_message = parse_units(msg)
-                if send_message != '':
-                    await client.send_message(message.channel, send_message)
-                    if not bulk:
-                        break
+            for unit in Units:
+                if msg.author != client.user:
+                    send_message = parse_units(msg, unit)
+                    if send_message != '':
+                        await client.send_message(message.channel, send_message)
+                        if not bulk:
+                            break
     else:
-        send_message = parse_units(message)
-        await client.send_message(message.channel, send_message)
+        for unit in Units:
+            send_message = parse_units(message, unit)
+            if send_message != '':
+                await client.send_message(message.channel, send_message)
 
 
-def parse_units(message):
-    for unit in Units:
-        if re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
-            message_regex = re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
-            string = message_regex.group(0) + ' is '
-            current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
-            converted_value = current_value * unit.conversionValue
-            return string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[unit.name]
+def parse_units(message, unit):
+    if re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
+        message_regex = re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
+        string = message_regex.group(0) + ' is '
+        current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
+        converted_value = current_value * unit.conversionValue
+        return string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[unit.name]
     return ''
