@@ -6,7 +6,6 @@ client = discord.Client()
 
 triggerString = '!convert'
 historyLimit = 10
-answerDecimalPlaces = '2'
 
 
 def parse_units(message):
@@ -16,7 +15,7 @@ def parse_units(message):
             string = message_regex.group(0) + ' is '
             current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
             converted_value = current_value * unit.conversionValue
-            return string + str("{0:." + answerDecimalPlaces + "f}".format(converted_value)) + ' ' + UnitPairs[
+            return string + str("{0:.2f}".format(converted_value)) + ' ' + UnitPairs[
                 unit.name]
     return ''
 
@@ -43,8 +42,8 @@ async def on_message(message):
                         if not bulk:
                             break
         else:
-            parse_units(message)
-
+            send_message = parse_units(message)
+            await client.send_message(message.channel, send_message)
 
 
 @client.event
