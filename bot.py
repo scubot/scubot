@@ -34,12 +34,17 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     elif message.content.startswith(triggerString):
-        if message.content == triggerString:
+        bulk = False
+        if 'all' in message.content:
+            bulk = True
+        if message.content == triggerString or message.content == triggerString + ' all':
             async for msg in client.logs_from(channel, limit=historyLimit):
-                send_message = parse_units(msg)
-                if send_message != '':
-                    await client.send_message(message.channel, send_message)
-                    break
+                if msg.author != client.user:
+                    send_message = parse_units(msg)
+                    if send_message != '':
+                        await client.send_message(message.channel, send_message)
+                        if not bulk:
+                            break
         else:
             parse_units(message)
     else:
