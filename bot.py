@@ -10,19 +10,39 @@ client = discord.Client()
 triggerString = '!convert'
 historyLimit = 10
 
-def construct_response(message_regex):
-    string = message_regex.group(0) + ' is '
-    current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
-    converted_value = feet_to_meters(current_value)
-    return string + str(converted_value)
-
 
 def parse_units(message):
     if re.search('[0-9]+(| )(ft|feet)', message.content) is not None:
-        msg = construct_response(re.search('[0-9]+(| )(ft|feet)', message.content)) + ' meters'
-        return msg
+        message_regex = re.search('[0-9]+(| )(ft|feet)', message.content)
+        string = message_regex.group(0) + ' is '
+        current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
+        converted_value = feet_to_meters(current_value)
+        return string + str(converted_value) + ' meters'
+
+    if re.search('[0-9]+(| )(m|meters)', message.content) is not None:
+        message_regex = re.search('[0-9]+(| )(m|meters)', message.content)
+        string = message_regex.group(0) + ' is '
+        current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
+        converted_value = meters_to_feet(current_value)
+        return string + str(converted_value) + ' feet'
+
+    if re.search('[0-9]+(| )(lbs|pounds)', message.content) is not None:
+        message_regex = re.search('[0-9]+(| )(lbs|pounds)', message.content)
+        string = message_regex.group(0) + ' is '
+        current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
+        converted_value = pounds_to_kilograms(current_value)
+        return string + str(converted_value) + ' kilograms'
+
+    if re.search('[0-9]+(| )(kg|kilograms)', message.content) is not None:
+        message_regex = re.search('[0-9]+(| )(kg|kilograms)', message.content)
+        string = message_regex.group(0) + ' is '
+        current_value = int(message_regex.group(0).replace(message_regex.group(2), ''))
+        converted_value = kilograms_to_pounds(current_value)
+        return string + str(converted_value) + ' pounds'
+
     else:
         return ''
+
 
 @client.event
 async def on_message(message):
@@ -49,6 +69,7 @@ async def on_message(message):
             parse_units(message)
     else:
         previousMessage = message
+
 
 @client.event
 async def on_ready():
