@@ -1,6 +1,7 @@
 import discord
 
 from modules.units import *
+from modules.redditposts import *
 
 client = discord.Client()
 
@@ -15,6 +16,8 @@ async def on_message(message):
 
     elif message.content.startswith(unitsTriggerString):
         await parse_units_command(message, client)
+    elif message.content.startswith(redditPostsTriggerString):
+        await parse_reddit_post_command(message, client)
 
 
 @client.event
