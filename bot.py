@@ -17,7 +17,7 @@ async def on_message(message):
     elif message.content.startswith(unitsTriggerString):
         await parse_units_command(message, client)
     elif message.content.startswith(redditPostsTriggerString):
-        await parse_reddit_post_command(message, client)
+        await reddit_check_and_post_loop(message, client)
 
 
 @client.event
