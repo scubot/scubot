@@ -41,7 +41,7 @@ class Units(BotModule):
         channel = message.channel
         if 'all' in message.content:  # convert all recent messages rather than just the first one
             bulk = True
-        if message.content.lower == self.trigger_string or message.content == self.trigger_string + ' all':
+        if message.content.lower() == self.trigger_string or message.content == self.trigger_string + ' all':
             async for msg in client.logs_from(channel, limit=self.historyLimit):
                 for unit in self.AvailableUnits:
                     if msg.author != client.user:  # don't convert yourself
