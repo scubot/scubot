@@ -1,9 +1,11 @@
 import discord
+from multiprocessing import Process
 
 from modules.units import *
 from modules.redditposts import *
 
 client = discord.Client()
+
 
 
 @client.event
@@ -16,8 +18,6 @@ async def on_message(message):
 
     elif message.content.startswith(unitsTriggerString):
         await parse_units_command(message, client)
-    elif message.content.startswith(redditPostsTriggerString):
-        await reddit_check_and_post_loop(message, client)
 
 
 @client.event
@@ -26,6 +26,7 @@ async def on_ready():
     print('User:', client.user.name)
     print('ID', client.user.id)
     print('------')
+    await reddit_check_and_post_loop(client)  # TODO this locks the other modules
 
 
 tokenFile = open('token')
