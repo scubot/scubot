@@ -1,38 +1,33 @@
 import discord
 
 from modules.units import *
-from modules.roles import *
-from modules.help import *
-from modules.status import *
-
-from modules.botModule import *
+from modules.redditposts import *
 
 client = discord.Client()
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status()]
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-    for bot_module in BotModule.loaded_modules:
-        if message.content.startswith(bot_module.trigger_string):
-            await bot_module.parse_command(message, client)
+    if message.content.startswith('!ping'):
+        msg = 'Pong! This bot is alive.'
+        await client.send_message(message.channel, msg)
+
+    elif message.content.startswith(unitsTriggerString):
+        await parse_units_command(message, client)
+    elif message.content.startswith(redditPostsTriggerString):
+        await parse_reddit_post_command(message, client)
 
 
 @client.event
 async def on_ready():
-    print('Login success. Your details:')
+    print('Logged in as')
     print('User:', client.user.name)
     print('ID', client.user.id)
-    print('----------')
+    print('------')
 
-print('scubot v' + BotModule.bot_version)
-try:
-    tokenFile = open('token')
-except FileNotFoundError:
-    print('Token not found. Please make sure you have a token file in this directory. Refer to README.md for details on getting a token.')
-    quit()
-print('Token found. Logging in...')
+
+tokenFile = open('token')
 token = tokenFile.read().replace('\n', '')
 client.run(token)
