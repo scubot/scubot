@@ -7,15 +7,21 @@ Writing modules for the `scubot` is designed to be easy. Modules are stored in t
 The module itself (`feature.py` in this case) looks like this:
 ```Python
 import discord
-import ... # Import everything else you need
+from modules.botModule import BotModule
+import ... # whatever is needed for your module
 
-featureTriggerString = '!feature' # e.g. !convert
+class Feature(BotModule):
+    name = ''  # name of your module
 
-async def parse_feature_command(message,client):
-# e.g. parse_units_command
-  do_stuff()
-  msg = "What you want to send, if any"
-  await client.send_message(message.channel, send)
+    description = ''  # description of its function
+
+    help_text = ''  # help text for explaining how to do things
+
+    trigger_string = ''   # string to listen for as trigger
+
+    async def parse_command(self, message, client):
+        # do whatever to parse message and kick of rest of the work once the module is triggered
+
 ```
 You should read `discord.py`'s documentation for more information.
 
@@ -25,21 +31,16 @@ Now that you have a module, you should enable it (or disable it likewise) in `bo
 import discord
 
 from modules.units import *
+#import your module
 from modules.feature import *
-# Add or remove these lines to enable/disable individual modules
 
-@client.event
-async def on_message(message):
-    ...
-    elif message.content.startswith(unitsTriggerString):
-        await parse_units_command(message, client)
-    elif message.content.startswith(featureTriggerString):
-        await parse_feature_command(message,client)
-    # Add or remove the above 2 lines to enable/disable individual modules.
+# Add your module to the list of active modules
+loaded_modules = [Units(), Feature()]
+
 ```
 
 ## FAQ:
 #### My module doesn't work!
-You should debug your module. The bot iself is written to be as barebones as possible, so the only thing that should go wrong are the modules. If you still think that the bot is broken, start an issue.
+You should debug your module. The bot itself is written to be as barebones as possible, so the only thing that should go wrong are the modules. If you still think that the bot is broken, start an issue.
 #### I made a module and I'd like it to be included in the default modules!
 Send a PR in and it'll be looked at.

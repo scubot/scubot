@@ -5,20 +5,15 @@ from modules.roles import *
 
 client = discord.Client()
 
+loaded_modules = [Units(), Roles()]
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-    if message.content.startswith('!ping'):
-        msg = 'Pong! This bot is alive.'
-        await client.send_message(message.channel, msg)
-
-    elif message.content.startswith(unitsTriggerString):
-        await parse_units_command(message, client)
-        
-    elif message.content.startswith(rolesTriggerString):
-        await parse_roles_command(message, client)
+    for bot_module in loaded_modules:
+        if message.content.startswith(bot_module.trigger_string):
+            await bot_module.parse_command(message, client)
 
 
 @client.event
@@ -27,7 +22,6 @@ async def on_ready():
     print('User:', client.user.name)
     print('ID', client.user.id)
     print('------')
-
 
 tokenFile = open('token')
 token = tokenFile.read().replace('\n', '')
