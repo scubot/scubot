@@ -1,5 +1,5 @@
 # scubot
-Bot for /r/scuba Discord
+Bot for /r/scuba Discord, and more!
 
 ## Dependencies
 - Python 3.5+
@@ -15,6 +15,6 @@ Included are a few simple modules that are considered to be core functionality f
 
 ## To-do list
 - [x] Unit conversion between commonly used units
-- [ ] Assign users a geographical role
+- [x] Assign users roles
 - [ ] Store diver's certifications
 - [ ] Become self-aware and generate snorkel memes
