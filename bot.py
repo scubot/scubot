@@ -3,10 +3,12 @@ import discord
 from modules.units import *
 from modules.roles import *
 from modules.help import *
+from modules.status import *
 
 client = discord.Client()
 
-loaded_modules = [Units(), Roles()]
+init_time = time.time()
+loaded_modules = [Units(), Roles(), Status()]
 
 loaded_modules.append(Help(loaded_modules))  # needs access to the loaded modules list so is loaded later
 
