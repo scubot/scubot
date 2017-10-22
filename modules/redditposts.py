@@ -1,10 +1,11 @@
 import discord
 import requests
 import json
-
-redditPostsTriggerString = '!reddit'  # e.g. !convert
+from time import sleep
 
 lastPostId = ''
+
+updateTime = 5  # minutes
 
 
 def get(sub):
@@ -64,15 +65,26 @@ def construct_embed(data, client):
         imageurl = None
 
     embed = discord.Embed(title=data['title'], description=description, colour=0xDEADBF)
-    embed.set_author(name=data['author'], icon_url=client.user.default_avatar_url)
+    embed.set_author(name=data['author'])
+    embed.url = data['url']
     if imageurl is not None:
         embed.set_image(url=imageurl)
     return embed
 
 
-async def reddit_check_and_post_loop(message, client):
-    data = get('scuba')
-    most_recent_post = data[0]['data']
-    if most_recent_post['id'] == lastPostId:
-        return
-    await client.send_message(message.channel, embed=construct_embed(most_recent_post, client))
+async def reddit_check_and_post_loop(client):
+    global lastPostId
+    channel = client.get_channel('371511262506385409')
+    while True:
+        embeds = []
+        data = get('scuba')
+        for post in data:
+            post_data = post['data']
+            if post_data['id'] == lastPostId:
+                break
+            embeds.append(construct_embed(post_data, client))
+        embeds.reverse()
+        for embed in embeds:
+            await client.send_message(channel, embed=embed)
+        lastPostId = data[0]['data']['id']
+        sleep(updateTime * 60)
