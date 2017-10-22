@@ -53,22 +53,22 @@ def construct_embed(data, client):
     det = determine(data)
     if det == 0:
         description = truncate(data["selftext"])
-        imageurl = None
+        image_url = None
     elif det == 1:
         description = data["url"]
-        imageurl = data["preview"]["images"][0]["source"]["url"]
+        image_url = data["preview"]["images"][0]["source"]["url"]
     elif det == 2:
         description = None
-        imageurl = data["url"]
+        image_url = data["url"]
     elif det == 3:
         description = data["url"]
-        imageurl = None
+        image_url = None
 
     embed = discord.Embed(title=data['title'], description=description, colour=0xDEADBF)
     embed.set_author(name=data['author'])
     embed.url = data['url']
-    if imageurl is not None:
-        embed.set_image(url=imageurl)
+    if image_url is not None:
+        embed.set_image(url=image_url)
     return embed
 
 
