@@ -8,7 +8,7 @@ client = discord.Client()
 
 loaded_modules = [Units(), Roles()]
 
-loaded_modules.append(Help(loaded_modules))
+loaded_modules.append(Help(loaded_modules))  # needs access to the loaded modules list so is loaded later
 
 
 @client.event
