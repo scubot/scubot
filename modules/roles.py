@@ -13,10 +13,10 @@ async def parse_roles_command(message, client):
         try:
             if role_to_assign in message.author.roles:
                 await client.remove_roles(message.author,role_to_assign)
-                msg = ":ok_hand: Removed you from " + role_to_assign + " ."
+                msg = ":ok_hand: Removed you from " + role_to_assign.name + " ."
             else:
                 await client.add_roles(message.author,role_to_assign)
-                msg = ":ok_hand: Added you to " + role_to_assign + " ."
+                msg = ":ok_hand: Added you to " + role_to_assign.name + " ."
         except discord.DiscordException:
             msg = "I'm sorry " + message.author.name + " ,I'm afraid I can't do that."
         await client.send_message(message.channel, msg)
