@@ -4,7 +4,7 @@ import shlex
 
 
 class Help(BotModule):
-    name = 'Help'  # name of your module
+    name = 'help'  # name of your module
 
     description = 'This provides help for other '  # description of its function
 
@@ -20,7 +20,7 @@ class Help(BotModule):
 
     async def parse_command(self, message, client):
         msg = shlex.split(message.content)
-        module_name = msg[1]
+        module_name = msg[1].lower
         for botModule in self.loaded_modules:
             if botModule.name == module_name:
                 if botModule.help_text == '':

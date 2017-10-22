@@ -4,7 +4,7 @@ from modules.botModule import BotModule
 
 
 class Roles(BotModule):
-    name = 'Roles'
+    name = 'roles'
 
     description = 'Allow for the assignment and removal of roles.'
 
