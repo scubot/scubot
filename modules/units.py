@@ -9,7 +9,12 @@ class Units(BotModule):
 
     description = 'Allow for the conversion between common units'
 
-    help_text = ''
+    help_text = 'This module supports two types of conversion, explicit and implicit. \n\n' \
+                'Explicit conversion takes the form "!convert <number> <unit>" (e.g !convert 10 ft) and will post a ' \
+                'conversion.\n\n' \
+                ' Implicit conversion takes the form of "!convert" or "!convert all", this mode looks through the ' \
+                'past 10 messages and converts the first unit it finds, by adding all it will convert all the units ' \
+                'found in the past 10 messages.'
 
     trigger_string = '!convert'
 
