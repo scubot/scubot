@@ -8,7 +8,9 @@ class Roles(BotModule):
 
     description = 'Allow for the assignment and removal of roles.'
 
-    help_text = ''
+    help_text = 'Usage: `!roles "role_name"`. This will add you to that role if allowed.'
+                ' Executing it when you already have the role assigned will remove you'
+                ' from that role.')
 
     trigger_string = '!role'  # String to listen for as trigger
 
