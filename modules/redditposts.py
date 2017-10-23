@@ -39,7 +39,7 @@ class RedditPost(BotModule):
         else:
             return False
 
-    def is_preview(data):
+    def is_preview(self, data):
         try:
             i = data["preview"]
             return True
@@ -54,14 +54,14 @@ class RedditPost(BotModule):
         else:
             return 3
 
-    def truncate(self, text):
+    def truncate(self, text, width):
         from textwrap import shorten
-        return shorten(text, 1600)
+        return shorten(text, width)
 
     def construct_embed(self, data, client):
         det = self.determine(data)
         if det == 0:
-            description = self.truncate(data["selftext"])
+            description = self.truncate(data["selftext"], 1600)
             image_url = None
         elif det == 1:
             description = data["url"]
@@ -73,9 +73,9 @@ class RedditPost(BotModule):
             description = data["url"]
             image_url = None
 
-        embed = discord.Embed(title=data['title'], description=description, colour=0xDEADBF)
-        embed.set_author(name=data['author'])
-        embed.url = data['url']
+        embed = discord.Embed(title=self.truncate(data['title'], 255), description=description, colour=0xDEADBF)
+        embed.set_author(name=self.truncate(data['author'], 255))
+        embed.url = 'https://www.reddit.com' + data['permalink']
         if image_url is not None:
             embed.set_image(url=image_url)
         return embed
