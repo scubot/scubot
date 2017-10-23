@@ -13,6 +13,11 @@ class Status(BotModule):
 
         trigger_string = '!status'
 
+        init_time = 0
+
+        def __init__(self):
+            init_time = time.time()
+
         def uptime_convert(self,seconds):
             minutes, seconds = divmod(seconds, 60)
             hours, minutes = divmod(minutes, 60)
@@ -20,15 +25,13 @@ class Status(BotModule):
             return days, hours, minutes, seconds
 
         async def parse_command(self, message, client):
-            global init_time
-            global loaded_modules
-            uptime = init_time-time.time()
+            uptime = self.init_time - time.time()
             uptime_string = self.uptime_convert(uptime)
             uptime_string = [str(round(x,0))[:-2] for x in uptime_string]
             uptime_string = uptime_string[0] + 'd ' + uptime_string[1] + 'h ' + uptime_string[2] + 'm ' + uptime_string[3] + 's'
-            print(loaded_modules)
+            print(self.loaded_modules)
             module_string = ''
-            for botModule in loaded_modules:
+            for botModule in self.loaded_modules:
                 module_string += botModule.name + ', '
             module_string = module_string[:-2]
             msg = '```\n Uptime: ' + uptime_string + '\n Loaded modules: ' + module_string + '\n```'
