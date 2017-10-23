@@ -26,12 +26,11 @@ class Status(BotModule):
 
         async def parse_command(self, message, client):
             uptime = time.time() - self.init_time
-            uptime_string = self.uptime_convert(uptime)
-            uptime_string = [str(round(x,0))[:-2] for x in uptime_string]
+            uptime_string = [str(round(x,0))[:-2] for x in self.uptime_convert(uptime)]
             uptime_string = uptime_string[0] + 'd ' + uptime_string[1] + 'h ' + uptime_string[2] + 'm ' + uptime_string[3] + 's'
             module_string = ''
             for botModule in self.loaded_modules:
                 module_string += botModule.name + ', '
             module_string = module_string[:-2]
-            msg = '```\n Uptime: ' + uptime_string + '\n Loaded modules: ' + module_string + '\n```'
+            msg = '```\n Uptime: ' + uptime_string + '\n Loaded modules: ' + module_string + '\n Bot version: ' + self.bot_version + '\n```'
             await client.send_message(message.channel, msg)
