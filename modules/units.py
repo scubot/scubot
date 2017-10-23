@@ -71,13 +71,16 @@ class Units(BotModule):
 
             for match in message_regex:
                 string = match.group(0)  # match group 0 is the message
-                current_value = float(string.replace(match.group(3), ''))  # group 3 is the unit suffix
-                converted_value = current_value * unit.conversionValue
+                try:
+                    current_value = float(string.replace(match.group(3), ''))  # group 3 is the unit suffix
+                    converted_value = current_value * unit.conversionValue
 
-                if not first_loop:
-                    response += ','  # we split up into multiple messages later
-                converted_string = str("{0:.2f}".format(converted_value))  # cast to string with 2 decimal places
-                response += string + ' is ' + converted_string + ' ' + self.UnitPairs[unit.name]
-                first_loop = False
+                    if not first_loop:
+                        response += ','  # we split up into multiple messages later
+                    converted_string = str("{0:.2f}".format(converted_value))  # cast to string with 2 decimal places
+                    response += string + ' is ' + converted_string + ' ' + self.UnitPairs[unit.name]
+                    first_loop = False
+                except:
+                    response = 'Tried to convert invalid number: ' + string
             return response
         return ''
