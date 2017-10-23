@@ -64,20 +64,20 @@ class Units(BotModule):
                         await client.send_message(message.channel, send)
 
     def parse_units(self, message, unit):
-        if re.search('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
+        if re.search('([0-9]|\.)+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
             response = ''
             first_loop = True  # keep track of when to add commas
-            message_regex = re.finditer('[0-9]+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
+            message_regex = re.finditer('([0-9]|\.)+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
 
             for match in message_regex:
-                string = match.group(0) + ' is '  # match group 0 is the entire matched area
-                current_value = int(match.group(0).replace(match.group(2), ''))  # group 2 is the unit suffix
+                string = match.group(0)  # match group 0 is the message
+                current_value = float(string.replace(match.group(3), ''))  # group 3 is the unit suffix
                 converted_value = current_value * unit.conversionValue
 
                 if not first_loop:
                     response += ','  # we split up into multiple messages later
                 converted_string = str("{0:.2f}".format(converted_value))  # cast to string with 2 decimal places
-                response += string + converted_string + ' ' + self.UnitPairs[unit.name]
+                response += string + ' is ' + converted_string + ' ' + self.UnitPairs[unit.name]
                 first_loop = False
             return response
         return ''
