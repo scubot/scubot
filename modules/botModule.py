@@ -7,9 +7,14 @@ class BotModule:
 
     trigger_string = ''  # string to listen for as trigger
 
+    has_background_loop = False
+
     loaded_modules = []
 
     bot_version = '0.1.0'
 
     async def parse_command(self, message, client):
         raise NotImplementedError("Parse function not implemented in module:" + self.name)
+
+    async def background_loop(self, client):
+        raise NotImplementedError("background_loop function not implemented in module:" + self.name)

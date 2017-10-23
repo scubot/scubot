@@ -16,6 +16,6 @@ Included are a few simple modules that are considered to be core functionality f
 ## To-do list
 - [x] Unit conversion between commonly used units
 - [x] Assign users roles
-- [ ] Auto post links to reddit content
+- [x] Auto post links to reddit content
 - [ ] Store diver's certifications
 - [ ] Become self-aware and generate snorkel memes
