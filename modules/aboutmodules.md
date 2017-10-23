@@ -35,7 +35,7 @@ from modules.units import *
 from modules.feature import *
 
 # Add your module to the list of active modules
-loaded_modules = [Units(), Feature()]
+BotModule.loaded_modules = [Units(), Feature()]
 
 ```
 

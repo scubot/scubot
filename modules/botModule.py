@@ -7,5 +7,9 @@ class BotModule:
 
     trigger_string = ''  # string to listen for as trigger
 
+    loaded_modules = []
+
+    bot_version = '0.1.0'
+
     async def parse_command(self, message, client):
         raise NotImplementedError("Parse function not implemented in module:" + self.name)
