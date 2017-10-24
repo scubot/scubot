@@ -18,18 +18,21 @@ class Roles(BotModule):
         server_roles = message.server.roles  # Grab a list of all roles as Role objects
         server_roles_str = [x.name for x in server_roles]  # String-ify it into their names
         msg = shlex.split(message.content)
-        role = [i for i, x in enumerate(server_roles_str) if x == msg[1]]  # Check where in the list the role is
-        role_to_assign = message.server.roles[role[0]]
-        if len(msg) != 1:
+        if len(msg) != 0:
+            role = [i for i, x in enumerate(server_roles_str) if x == msg[1]]  # Check where in the list the role is
+            if len(role) == 0:
+                msg = "[!] Role not found."
+                await client.send_message(message.channel, msg)
+            role_to_assign = message.server.roles[role[0]]
             try:
                 if role_to_assign in message.author.roles:
                     await client.remove_roles(message.author, role_to_assign)
-                    msg = ":ok_hand: Removed you from " + role_to_assign.name + " ."
+                    msg = "[:ok_hand:] Removed you from " + role_to_assign.name + " ."
                 else:
                     await client.add_roles(message.author, role_to_assign)
-                    msg = ":ok_hand: Added you to " + role_to_assign.name + " ."
+                    msg = "[:ok_hand:] Added you to " + role_to_assign.name + " ."
             except discord.DiscordException:
-                msg = "I'm sorry " + message.author.name + " ,I'm afraid I can't do that."
+                msg = "[!] Could not assign you that role."
             await client.send_message(message.channel, msg)
         else:
             pass
