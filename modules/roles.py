@@ -14,6 +14,8 @@ class Roles(BotModule):
 
     trigger_string = '!role'  # String to listen for as trigger
 
+    module_version = '1.0.0'
+
     async def parse_command(self, message, client):
         server_roles = message.server.roles  # Grab a list of all roles as Role objects
         server_roles_str = [x.name for x in server_roles]  # String-ify it into their names

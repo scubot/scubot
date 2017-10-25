@@ -34,6 +34,8 @@ class Units(BotModule):
 
     historyLimit = 10  # number of messages to search back for conversion
 
+    module_version = '1.0.0'
+
     # This is where the fun begins
 
     async def parse_command(self, message, client):

@@ -1,3 +1,6 @@
+from tinydb import TinyDB, Query
+
+
 class BotModule:
     name = ''  # name of your module
 
@@ -9,11 +12,16 @@ class BotModule:
 
     has_background_loop = False
 
+    module_db = ''
+
     listen_for_reaction = False
 
     loaded_modules = []
 
-    bot_version = '0.1.0'
+    module_version = '0.0.0'
+
+    def __init__(self):
+        self.module_db = TinyDB('./modules/databases/' + self.name)
 
     async def parse_command(self, message, client):
         raise NotImplementedError("Parse function not implemented in module:" + self.name)

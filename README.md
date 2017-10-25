@@ -4,6 +4,7 @@ Bot for /r/scuba Discord, and more!
 ## Dependencies
 - Python 3.5+
 - discord.py
+- tinydb
 - Dependencies of modules installed
 
 ## Usage
