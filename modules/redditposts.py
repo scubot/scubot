@@ -19,13 +19,15 @@ class RedditPost(BotModule):
 
     channel = '371511262506385409'  # set the channel used for posting
 
+    sub_name = 'scuba'  # subreddit to get post from
+
     module_version = '1.0.0'
 
     updateTime = 5  # minutes
 
     def __init__(self):
         BotModule.__init__(self)
-        data = self.get('scuba')
+        data = self.get(self.sub_name)
         self.lastPostId = data[0]['data']['id']
 
     async def parse_command(self, message, client):
@@ -94,7 +96,7 @@ class RedditPost(BotModule):
         channel = client.get_channel(self.channel)
         while not client.is_closed:
             embeds = []
-            data = self.get('scuba')
+            data = self.get(self.sub_name)
             for post in data:
                 post_data = post['data']
                 if post_data['id'] == self.lastPostId:
