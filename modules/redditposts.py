@@ -17,6 +17,8 @@ class RedditPost(BotModule):
 
     lastPostId = ''
 
+    channel = '371511262506385409'  # set the channel used for posting
+
     module_version = '1.0.0'
 
     updateTime = 5  # minutes
@@ -89,7 +91,7 @@ class RedditPost(BotModule):
 
     async def background_loop(self, client):
         await client.wait_until_ready()
-        channel = client.get_channel('371511262506385409')
+        channel = client.get_channel(self.channel)
         while not client.is_closed:
             embeds = []
             data = self.get('scuba')
