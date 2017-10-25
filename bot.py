@@ -5,12 +5,13 @@ from modules.roles import *
 from modules.help import *
 from modules.status import *
 from modules.redditposts import *
+from modules.karma import *
 
 from modules.botModule import *
 
 client = discord.Client()
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(), RedditPost()]
+BotModule.loaded_modules = [Units(), Roles(), Help(), Status(), RedditPost(), Karma()]
 
 
 @client.event
@@ -21,6 +22,12 @@ async def on_message(message):
         if message.content.startswith(bot_module.trigger_string):
             await bot_module.parse_command(message, client)
 
+@client.event
+async def on_reaction_add(reaction, user):
+    if reaction.message.author == client.user:
+        return
+    await Karma.karma_action(reaction, client)
+#await client.send_message(reaction.message.channel, msg)
 
 @client.event
 async def on_ready():
