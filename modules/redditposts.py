@@ -20,6 +20,7 @@ class RedditPost(BotModule):
     updateTime = 5  # minutes
 
     def __init__(self):
+        BotModule.__init__(self)
         data = self.get('scuba')
         self.lastPostId = data[0]['data']['id']
 
