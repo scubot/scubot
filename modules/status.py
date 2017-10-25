@@ -7,7 +7,7 @@ import datetime
 class Status(BotModule):
         name = 'status'
 
-        description = 'Allow for the assignment and removal of roles.'
+        description = 'Shows status about this bot.'
 
         help_text = 'Usage: `!status` shows information about this instance of scubot.'
 
