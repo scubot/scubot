@@ -15,8 +15,13 @@ class Status(BotModule):
 
         init_time = time.time()
 
-        def __init__(self):
-            init_time = time.time()
+        bot_version = ''
+
+        module_version = '1.0.0'
+
+        def __init__(self, bot_version):
+            BotModule.__init__(self)
+            self.bot_version = bot_version
 
         def uptime_convert(self,seconds):
             minutes, seconds = divmod(seconds, 60)
@@ -30,7 +35,7 @@ class Status(BotModule):
             uptime_string = uptime_string[0] + 'd ' + uptime_string[1] + 'h ' + uptime_string[2] + 'm ' + uptime_string[3] + 's'
             module_string = ''
             for botModule in self.loaded_modules:
-                module_string += botModule.name + ', '
+                module_string += botModule.name + ' (' + botModule.module_version + '), '
             module_string = module_string[:-2]
             msg = '```\n Uptime: ' + uptime_string + '\n Loaded modules: ' + module_string + '\n Bot version: ' + self.bot_version + '\n```'
             await client.send_message(message.channel, msg)

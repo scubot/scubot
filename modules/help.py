@@ -13,6 +13,8 @@ class Help(BotModule):
 
     trigger_string = '!help'  # string to listen for as trigger
 
+    module_version = '1.0.0'
+
     async def parse_command(self, message, client):
         msg = shlex.split(message.content)
         if len(msg) == 1:

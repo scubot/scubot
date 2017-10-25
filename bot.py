@@ -1,3 +1,5 @@
+bot_version = '0.1.0'
+
 import discord
 
 from modules.units import *
@@ -10,7 +12,7 @@ from modules.botModule import *
 
 client = discord.Client()
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(), RedditPost()]
+BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost()]
 
 
 @client.event
@@ -30,12 +32,12 @@ async def on_ready():
     print('----------')
 
 
-print('scubot v' + BotModule.bot_version)
+print('scubot v' + bot_version)
 try:
     tokenFile = open('token')
 except FileNotFoundError:
-    print(
-        'Token not found. Please make sure you have a token file in this directory. Refer to README.md for details on getting a token.')
+    print('Token not found. Please make sure you have a token file in this directory.'
+          ' Refer to README.md for details on getting a token.')
     quit()
 print('Token found. Logging in...')
 token = tokenFile.read().replace('\n', '')

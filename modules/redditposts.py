@@ -17,6 +17,8 @@ class RedditPost(BotModule):
 
     lastPostId = ''
 
+    module_version = '1.0.0'
+
     updateTime = 5  # minutes
 
     def __init__(self):

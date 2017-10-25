@@ -16,7 +16,7 @@ class BotModule:
 
     loaded_modules = []
 
-    bot_version = '0.1.0'
+    module_version = '0.0.0'
 
     def __init__(self):
         self.module_db = TinyDB('./modules/databases/' + self.name)

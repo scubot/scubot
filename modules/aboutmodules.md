@@ -17,7 +17,18 @@ class Feature(BotModule):
 
     help_text = ''  # help text for explaining how to do things
 
-    trigger_string = ''   # string to listen for as trigger
+    trigger_string = ''  # string to listen for as trigger
+
+    has_background_loop = False  # start background loop
+
+    module_version = '0.0.0'  # version of the current module
+
+    def __init__(self):
+        BotModule.__init__(self)
+        # do whatever to initialise the module
+
+    async def background_loop(self, client):
+        # preform background tasks
 
     async def parse_command(self, message, client):
         # do whatever to parse message and kick of rest of the work once the module is triggered
@@ -52,8 +63,10 @@ This is the string that your module will listen for when a message is received.
 This property is a list of all the currently loaded modules, and can be used for accessing other modules or checking dependencies.
 ### has\_background\_loop
 This defines whether the module has a background loop that needs to be added to the event loop
-### module_db
+### module\_db
 This is a [TinyDB](https://pypi.python.org/pypi/tinydb) object that links to `./modules/databases/<module name>.json` and is used for a modules permanent storage.
+### module\_version
+This is the current version number of the module
 ### parse\_command(message, client)
 This is where code for handling messages goes, it only gets run if the message strts with the modules trigger\_string, the client parameter allows for the sending of messages in response or other tasks, see discord.py documentation for more details.
 ### background\_loop(client)
