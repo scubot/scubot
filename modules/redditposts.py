@@ -19,6 +19,10 @@ class RedditPost(BotModule):
 
     updateTime = 5  # minutes
 
+    def __init__(self):
+        data = self.get('scuba')
+        self.lastPostId = data[0]['data']['id']
+
     async def parse_command(self, message, client):
         await client.send_message(message.channel, self.help_text + '. ' + self.description)
 
