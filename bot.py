@@ -1,5 +1,3 @@
-bot_version = '0.1.0'
-
 import discord
 
 from modules.units import *
@@ -11,6 +9,8 @@ from modules.redditposts import *
 from modules.botModule import *
 
 client = discord.Client()
+
+bot_version = '0.1.0'
 
 BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost()]
 
@@ -45,6 +45,5 @@ token = tokenFile.read().replace('\n', '')
 for bot_module in BotModule.loaded_modules:
     if bot_module.has_background_loop:
         client.loop.create_task(bot_module.background_loop(client))
-
 
 client.run(token)
