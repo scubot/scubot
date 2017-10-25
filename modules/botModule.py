@@ -9,6 +9,8 @@ class BotModule:
 
     has_background_loop = False
 
+    listen_for_reaction = False
+
     loaded_modules = []
 
     bot_version = '0.1.0'
@@ -17,4 +19,7 @@ class BotModule:
         raise NotImplementedError("Parse function not implemented in module:" + self.name)
 
     async def background_loop(self, client):
+        raise NotImplementedError("background_loop function not implemented in module:" + self.name)
+
+    async def on_reaction(self, reaction, client):
         raise NotImplementedError("background_loop function not implemented in module:" + self.name)

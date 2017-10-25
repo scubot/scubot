@@ -22,12 +22,15 @@ async def on_message(message):
         if message.content.startswith(bot_module.trigger_string):
             await bot_module.parse_command(message, client)
 
+
 @client.event
 async def on_reaction_add(reaction, user):
     if reaction.message.author == client.user:
         return
-    await Karma.karma_action(reaction, client)
-#await client.send_message(reaction.message.channel, msg)
+    for bot_module in BotModule.loaded_modules:
+        if bot_module.listen_for_reaction:
+            await bot_module.on_reaction(reaction, client)
+
 
 @client.event
 async def on_ready():

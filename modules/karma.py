@@ -10,10 +10,12 @@ class Karma(BotModule):
 
         trigger_string = '!reddit'
 
+        listen_for_reaction = True
+
         async def parse_command(self, message, client):
             pass
 
-        async def karma_action(self, reaction, client):
+        async def on_reaction(self, reaction, client):
             print("karma_action triggered")
             msg = "I saw that!" + reaction.message.author.name + reaction.emoji
             await client.send_message(reaction.message.channel, msg)
