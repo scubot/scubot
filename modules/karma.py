@@ -20,15 +20,15 @@ class Karma(BotModule):
             pass
 
         async def on_reaction(self, reaction, client):
-            target_user = self.module_db.Query()
-            if self.module_db.get(target_user.userid == reaction.message.author.id) == None:
-                self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
+            target_user = self.karma.Query()
+            if self.karma.get(target_user.userid == reaction.message.author.id) == None:
+                self.karma.insert({'userid': reaction.message.author.id, 'karma': 1})
 
                 msg = 'New entry for ' + reaction.message.author.id + ' added.'
                 await client.send_message(reaction.message.channel, msg)
             else:
-                new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] + 1
-                self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
+                new_karma = self.karma.get(target_user.userid == reaction.message.author.id)['karma'] + 1
+                self.karma.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
 
                 msg = 'Karma for ' + reaction.message.author.id + ' updated to ' + new_karma
                 await client.send_message(reaction.message.channel, msg)
