@@ -37,7 +37,7 @@ class Karma(BotModule):
             target_user = Query()
             print(reaction.message.reactions) #a list
             rlist = []
-            for x in reaction.message.reactions: # Check if person who reacted has already reacted to this message
+            for x in reaction.message.reactions[:-1]: # Check if person who reacted has already reacted to this message
                 for u in await client.get_reaction_users(x):
                     rlist.append(u)
             if reaction.message.author != user and not user in rlist:
