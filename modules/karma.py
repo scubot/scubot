@@ -21,7 +21,6 @@ class Karma(BotModule):
         async def parse_command(self, message, client):
             msg = shlex.split(message.content)
             target_user = Query()
-            print(msg)
             if len(msg) > 1:
                 if msg[1] == 'reset':
                     self.module_db
@@ -34,7 +33,12 @@ class Karma(BotModule):
 
         async def on_reaction(self, reaction, client, user):
             target_user = Query()
-            if reaction.message.author != user:
+            print(reaction.message.reactions) #a list
+            rlist = []
+            for x in reaction.message.reactions: # Check if person who reacted has already reacted to this message
+                for u in await client.get_reaction_users(x):
+                    rlist.append(u)
+            if reaction.message.author != user and not user in rlist:
                 if self.module_db.get(target_user.userid == reaction.message.author.id) == None:
                     self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
                 else:
