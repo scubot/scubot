@@ -31,7 +31,7 @@ async def on_reaction_add(reaction, user):
         return
     for bot_module in BotModule.loaded_modules:
         if bot_module.listen_for_reaction:
-            await bot_module.on_reaction(reaction, client)
+            await bot_module.on_reaction(reaction, client, user)
 
 
 @client.event

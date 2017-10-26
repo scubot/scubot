@@ -1,6 +1,7 @@
 import discord
 from tinydb import TinyDB, Query
 from modules.botModule import BotModule
+import shlex
 
 class Karma(BotModule):
         name = 'karma'
@@ -18,24 +19,29 @@ class Karma(BotModule):
         listen_for_reaction = True
 
         async def parse_command(self, message, client):
+            msg = shlex.split(message.content)
             target_user = Query()
-            user_karma = self.module_db.get(target_user.userid == message.author.id)['karma']
-            msg = message.author.name + "'s karma: " + str(user_karma) + '.'
-            await client.send_message(message.channel, msg)
-
-        async def on_reaction(self, reaction, client):
-            target_user = Query()
-            if self.module_db.get(target_user.userid == reaction.message.author.id) == None:
-                self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
-
-                #msg = 'New entry for ' + reaction.message.author.id + ' added.'
-                #await client.send_message(reaction.message.channel, msg)
+            print(msg)
+            if len(msg) > 1:
+                if msg[1] == 'reset':
+                    self.module_db
+                else:
+                    pass
             else:
-                new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] + 1
-                self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
+                user_karma = self.module_db.get(target_user.userid == message.author.id)['karma']
+                msg = message.author.name + "'s karma: " + str(user_karma) + '.'
+                await client.send_message(message.channel, msg)
 
-                #msg = 'Karma for ' + reaction.message.author.id + ' updated to ' + str(new_karma)
-                #await client.send_message(reaction.message.channel, msg)
+        async def on_reaction(self, reaction, client, user):
+            target_user = Query()
+            if reaction.message.author != user:
+                if self.module_db.get(target_user.userid == reaction.message.author.id) == None:
+                    self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
+                else:
+                    new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] + 1
+                    self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
+            else:
+                pass
 
             #msg = "I saw that!" + reaction.message.author.name + reaction.emoji
             #await client.send_message(reaction.message.channel, msg)
