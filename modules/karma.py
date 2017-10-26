@@ -23,7 +23,9 @@ class Karma(BotModule):
             target_user = Query()
             if len(msg) > 1:
                 if msg[1] == 'reset':
-                    self.module_db
+                    self.module_db.update({'karma': 0}, target_user.userid == message.author.id)
+                    msg = "[:ok_hand:] Your karma has been reset to 0."
+                    await client.send_message(message.channel, msg)
                 else:
                     pass
             else:
