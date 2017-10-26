@@ -18,6 +18,8 @@ class Karma(BotModule):
 
         listen_for_reaction = True
 
+        reaction_emojis = [':star:']
+
         async def parse_command(self, message, client):
             msg = shlex.split(message.content)
             target_user = Query()
@@ -34,20 +36,20 @@ class Karma(BotModule):
                 await client.send_message(message.channel, msg)
 
         async def on_reaction(self, reaction, client, user):
-            target_user = Query()
-            print(reaction.message.reactions) #a list
-            rlist = []
-            for x in reaction.message.reactions[:-1]: # Check if person who reacted has already reacted to this message
-                for u in await client.get_reaction_users(x):
-                    rlist.append(u)
-            if reaction.message.author != user and not user in rlist:
-                if self.module_db.get(target_user.userid == reaction.message.author.id) == None:
-                    self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
+            if reaction.emoji in self.reaction_emojis:
+                target_user = Query()
+                rlist = []
+                for x in reaction.message.reactions[:-1]: # Check if person who reacted has already reacted to this message
+                    for u in await client.get_reaction_users(x):
+                        rlist.append(u)
+                if reaction.message.author != user and not user in rlist:
+                    if self.module_db.get(target_user.userid == reaction.message.author.id) == None:
+                        self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
+                    else:
+                        new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] + 1
+                        self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
                 else:
-                    new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] + 1
-                    self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
-            else:
-                pass
+                    pass
 
             #msg = "I saw that!" + reaction.message.author.name + reaction.emoji
             #await client.send_message(reaction.message.channel, msg)
