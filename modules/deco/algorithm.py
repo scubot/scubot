@@ -106,7 +106,7 @@ class DecoAlgorithm(DecoConstants):
             he_halflife = self.buehlmann_He_halflife[i]
 
             helium_loading = current_helium_loading + (pp_he - current_helium_loading) * (
-            1 - pow(2, -time / helium_loading))
+            1 - pow(2, -time / he_halflife))
 
             # Final totaling
             self.NitrogenLoadings[i] = nitrogen_loading
@@ -143,7 +143,7 @@ class DecoAlgorithm(DecoConstants):
         self.LimitingTissueIndex = 0
         for i in range(16):
             deco_sim = copy.copy(self)
-            current_ceiling = 0
+            current_ceiling = 0.1
             in_limits = False
             while not in_limits:
                 nitrogen_loading = deco_sim.NitrogenLoadings[i]
