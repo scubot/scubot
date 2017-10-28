@@ -17,7 +17,7 @@ class Karma(BotModule):
 
         listen_for_reaction = True
 
-        reaction_emojis = [':star:', '⭐']  # apparently some return as unicode emoji
+        reaction_emojis = [':star:', '⭐', 'waitwhat']  # apparently some return as unicode emoji
 
         async def parse_command(self, message, client):
             msg = shlex.split(message.content)
@@ -37,14 +37,14 @@ class Karma(BotModule):
                 await client.send_message(message.channel, msg)
 
         async def on_reaction_add(self, reaction, client, user):
-            if reaction.emoji in self.reaction_emojis:
+            if reaction.emoji in self.reaction_emojis or reaction.emoji.name in self.reaction_emojis:
                 target_user = Query()
                 rlist = []
                 for x in reaction.message.reactions[
                          :-1]:  # Check if person who reacted has already reacted to this message
                     for u in await client.get_reaction_users(x):
                         rlist.append(u)
-                if user not in rlist and reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
+                if user not in rlist:  # and reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
                     if self.module_db.get(target_user.userid == reaction.message.author.id) is None:
                         self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
                     else:
