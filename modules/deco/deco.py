@@ -1,5 +1,5 @@
 from modules.botModule import BotModule
-from modules.deco.algorithm import DecoAlgorithm, meter_to_bar, bar_to_meter
+from modules.deco.algorithm import *
 import shlex
 
 class Deco(BotModule):
@@ -19,7 +19,7 @@ class Deco(BotModule):
 
     has_background_loop = False  # start background loop
 
-    module_version = '0.0.1'  # version of the current module
+    module_version = '0.1.0'  # version of the current module
 
     async def parse_command(self, message, client):
         deco_actual = DecoAlgorithm()
@@ -42,11 +42,12 @@ class Deco(BotModule):
                     time = float(depths[1])
                     deco_actual.add_decent(meter_to_bar(depth), meter_to_bar(deco_actual.DecentRate))
                     deco_actual.add_bottom(time)
-        if bar_to_meter(deco_actual.get_ceiling()) > 0:
+        if deco_actual.get_ceiling() > 1:
             schedule = deco_actual.get_deco_schedule()
+            message_string = ''
             for i in range(len(schedule)):
-                await client.send_message(message.channel,
-                                          "Deco Depth(" + str(i) + "): " + str(bar_to_meter(schedule[i].Depth)))
-                await client.send_message(message.channel, "Deco time(" + str(i) + "): " + str(schedule[i].Time))
+                message_string += "Deco Depth (" + str(i) + "): " + str(bar_to_meter(schedule[i].Depth)) + '\n'
+                message_string += "Deco time (" + str(i) + "): " + str(math.ceil(schedule[i].Time)) + '\n\n'
+            await client.send_message(message.channel, message_string)
         else:
             await client.send_message(message.channel, "Remaining No Stop Time: " + str(deco_actual.get_no_deco_time()))
