@@ -36,7 +36,7 @@ class Karma(BotModule):
                 msg = message.author.name + "'s karma: " + str(user_karma)
                 await client.send_message(message.channel, msg)
 
-        async def on_reaction(self, reaction, client, user):
+        async def on_reaction_add(self, reaction, client, user):
             if reaction.emoji in self.reaction_emojis:
                 target_user = Query()
                 rlist = []
@@ -49,6 +49,18 @@ class Karma(BotModule):
                         self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
                     else:
                         new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] + 1
+                        self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
+                else:
+                    pass
+
+        async def on_reaction_remove(self, reaction, client, user):
+            if reaction.emoji in self.reaction_emojis:
+                target_user = Query()
+                if reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
+                    if self.module_db.get(target_user.userid == reaction.message.author.id) is None:
+                        self.module_db.insert({'userid': reaction.message.author.id, 'karma': 0})
+                    else:
+                        new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] - 1
                         self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
                 else:
                     pass

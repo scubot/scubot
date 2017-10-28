@@ -6,7 +6,9 @@ from modules.help import *
 from modules.status import *
 from modules.redditposts import *
 from modules.karma import *
+from modules.info import *
 from modules.deco.deco import *
+
 
 from modules.botModule import *
 
@@ -14,7 +16,7 @@ client = discord.Client()
 
 bot_version = '0.1.0'
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost(), Karma(), Deco()]
+BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost(), Karma(), Info(), Deco()]
 
 
 @client.event
@@ -32,7 +34,16 @@ async def on_reaction_add(reaction, user):
         return
     for bot_module in BotModule.loaded_modules:
         if bot_module.listen_for_reaction:
-            await bot_module.on_reaction(reaction, client, user)
+            await bot_module.on_reaction_add(reaction, client, user)
+
+
+@client.event
+async def on_reaction_remove(reaction, user):
+    if reaction.message.author == client.user:
+        return
+    for bot_module in BotModule.loaded_modules:
+        if bot_module.listen_for_reaction:
+            await bot_module.on_reaction_remove(reaction, client, user)
 
 
 @client.event

@@ -24,17 +24,21 @@ class Units(BotModule):
                       Unit("meters", "m", 3.28084),
                       Unit("pounds", "lbs", 0.453592),
                       Unit("kilograms", "kg", 2.20462),
-                      Unit("fathoms", "fsw", 1.8288)]
+                      Unit("fathoms", "fsw", 1.8288),
+                      Unit("cubic feet", "cft", 28.3168),
+                      Unit("liters", "L", 0.035314608614736)]
 
     UnitPairs = {'feet': 'meters',
                  'meters': 'feet',
                  'pounds': 'kilograms',
                  'kilograms': 'pounds',
-                 'fathoms': 'meters'}
+                 'fathoms': 'meters',
+                 'cubic feet': 'liters',
+                 'liters': 'cubic feet'}
 
     historyLimit = 10  # number of messages to search back for conversion
 
-    module_version = '1.0.0'
+    module_version = '1.0.1'
 
     # This is where the fun begins
 
