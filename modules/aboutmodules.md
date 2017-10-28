@@ -21,6 +21,8 @@ class Feature(BotModule):
 
     has_background_loop = False  # start background loop
 
+    listen_for_reaction = False # listen for a reaction
+
     module_version = '0.0.0'  # version of the current module
 
     def __init__(self):
