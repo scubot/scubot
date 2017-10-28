@@ -16,7 +16,7 @@ class Deco(BotModule):
                 " would be expressed as D10,10:60,5\n\n" \
                 "GFL : Sets the low percentage for gradient factors (e.g. GFL0.3 will set the low gradient factor to" \
                 " 30%\n\n" \
-                "GFH : Sets the high percentage for gradient factors (e.g. GFH0.8 will set the low gradient factor to" \
+                "GFH : Sets the high percentage for gradient factors (e.g. GFH0.8 will set the high gradient factor to" \
                 " 80%\n\n"  # help text for explaining how to do things
 
     trigger_string = '!deco'  # string to listen for as trigger
