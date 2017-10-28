@@ -7,6 +7,8 @@ from modules.status import *
 from modules.redditposts import *
 from modules.karma import *
 from modules.info import *
+from modules.deco.deco import *
+
 
 from modules.botModule import *
 
@@ -14,7 +16,7 @@ client = discord.Client()
 
 bot_version = '0.1.0'
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost(), Karma(), Info()]
+BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost(), Karma(), Info(), Deco()]
 
 
 @client.event
