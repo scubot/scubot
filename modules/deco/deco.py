@@ -23,29 +23,47 @@ class Deco(BotModule):
 
     has_background_loop = False  # start background loop
 
-    module_version = '0.1.0'  # version of the current module
+    module_version = '1.0.0'  # version of the current module
 
     async def parse_command(self, message, client):
+        await client.send_message(message.channel, '**This algorithm is a prototype and has known issues, not for '
+                                                   'actual dive planning!**')
         deco_actual = DecoAlgorithm()
         msg = shlex.split(message.content)
         for i in msg:
             if i.startswith('GFL'):
-                deco_actual.GFLow = float(i.replace('GFL', ''))
+                try:
+                    deco_actual.GFLow = float(i.replace('GFL', ''))
+                except:
+                    await client.send_message(message.channel, 'Invalid parameter for GFL')
+                    return
             elif i.startswith('GFH'):
-                deco_actual.GFHigh = float(i.replace('GFH', ''))
+                try:
+                    deco_actual.GFHigh = float(i.replace('GFH', ''))
+                except:
+                    await client.send_message(message.channel, 'Invalid parameter for GFH')
+                    return
             elif i.startswith('G'):
-                parameters = i.replace('G', '').split('/')
-                fr_n2 = float(parameters[0])
-                fr_he = float(parameters[1])
-                deco_actual.create_gas(fr_n2, fr_he)
+                try:
+                    parameters = i.replace('G', '').split('/')
+                    fr_n2 = float(parameters[0])
+                    fr_he = float(parameters[1])
+                    deco_actual.create_gas(fr_n2, fr_he)
+                except:
+                    await client.send_message(message.channel, 'Invalid parameter for Gas')
+                    return
             elif i.startswith('D'):
-                parameters = i.replace('D', '').split(':')
-                for j in parameters:
-                    depths = j.split(',')
-                    depth = float(depths[0])
-                    time = float(depths[1])
-                    deco_actual.add_decent(meter_to_bar(depth), meter_to_bar(deco_actual.DecentRate))
-                    deco_actual.add_bottom(time)
+                try:
+                    parameters = i.replace('D', '').split(':')
+                    for j in parameters:
+                        depths = j.split(',')
+                        depth = float(depths[0])
+                        time = float(depths[1])
+                        deco_actual.add_decent(meter_to_bar(depth), meter_to_bar(deco_actual.DecentRate))
+                        deco_actual.add_bottom(time)
+                except:
+                    await client.send_message(message.channel, 'Invalid parameter for Dive Profile')
+                    return
         if deco_actual.get_ceiling() > 1:
             schedule = deco_actual.get_deco_schedule()
             message_string = ''
