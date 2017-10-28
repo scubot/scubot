@@ -12,8 +12,6 @@ class BotModule:
 
     has_background_loop = False
 
-    module_db = ''
-
     listen_for_reaction = False
 
     loaded_modules = []
@@ -29,5 +27,8 @@ class BotModule:
     async def background_loop(self, client):
         raise NotImplementedError("background_loop function not implemented in module:" + self.name)
 
-    async def on_reaction(self, reaction, client):
-        raise NotImplementedError("background_loop function not implemented in module:" + self.name)
+    async def on_reaction_add(self, reaction, client, user):
+        raise NotImplementedError("on_reaction_add function not implemented in module:" + self.name)
+
+    async def on_reaction_remove(self, reaction, client, user):
+        raise NotImplementedError("on_reaction_remove function not implemented in module:" + self.name)
