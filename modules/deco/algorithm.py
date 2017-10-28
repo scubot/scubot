@@ -126,11 +126,12 @@ class DecoAlgorithm(DecoConstants):
         pp_he = self.ppHe
         a_he = self.buehlmann_He_a[tissue_index]
         b_he = self.buehlmann_He_b[tissue_index]
-
-        a = ((a_n2 * pp_n2) + (a_he * pp_he)) / (pp_n2 + pp_he)
-        b = ((b_n2 * pp_n2) + (b_he * pp_he)) / (pp_n2 + pp_he)
-
-        return (depth / b) + a
+        try:
+            a = ((a_n2 * pp_n2) + (a_he * pp_he)) / (pp_n2 + pp_he)
+            b = ((b_n2 * pp_n2) + (b_he * pp_he)) / (pp_n2 + pp_he)
+            return (depth / b) + a
+        except:
+            return -math.inf
 
     def get_gf_point(self, depth):
         gf_high = self.GFHigh
@@ -143,7 +144,7 @@ class DecoAlgorithm(DecoConstants):
         self.LimitingTissueIndex = 0
         for i in range(16):
             deco_sim = copy.copy(self)
-            current_ceiling = 0.1
+            current_ceiling = 0
             in_limits = False
             while not in_limits:
                 nitrogen_loading = deco_sim.NitrogenLoadings[i]
@@ -153,7 +154,7 @@ class DecoAlgorithm(DecoConstants):
                 theoretical_gf = ((nitrogen_loading + helium_loading) - ambient_pressure) / (
                 deco_sim.get_m_value(i, current_ceiling) - ambient_pressure)
 
-                if theoretical_gf < max_gf and theoretical_gf is not None:
+                if theoretical_gf < max_gf and theoretical_gf != 0.0:
                     in_limits = True
                 else:
                     current_ceiling += 0.1
