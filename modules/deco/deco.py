@@ -8,12 +8,16 @@ class Deco(BotModule):
     description = 'This module preforms decompression calculations using the Buehlmann ZH-16 decompression algorithm ' \
                   'with gradient factors(30,80 by default)'  # description of its function
 
-    help_text = "G              :   Adds a gas to the gas list, takes the form of G<FrN2>:<FrO2>:<FrHe>,\n" \
-                "                   air (expressed as G0.21:0.79:0) is automatically added as the zeroth element\n" \
-                "                   and gases can be accessed in the order they are added.\n" \
-                "D              :   Add depths and times to the model, takes the form D<Depth1>,<Time1>:<Depth2>,<Time2>...\n" \
-                "                   For example a dive that goes to 10 meters for 10 minutes then goes to 60 meters for 5 minutes\n" \
-                "                   would be expressed as D10,10:60,5"  # help text for explaining how to do things
+    help_text = "G : Adds a gas to the gas list, takes the form of G<FrN2>/<FrHe>," \
+                "air (expressed as G0.79/0) is automatically added the default gas." \
+                " Gas switching has yet to be implemented.\n\n" \
+                "D : Add depths and times to the model, takes the form D<Depth1>,<Time1>:<Depth2>,<Time2>... " \
+                "For example a dive that goes to 10 meters for 10 minutes then goes to 60 meters for 5 minutes" \
+                " would be expressed as D10,10:60,5\n\n" \
+                "GFL : Sets the low percentage for gradient factors (e.g. GFL0.3 will set the low gradient factor to" \
+                " 30%\n\n" \
+                "GFH : Sets the high percentage for gradient factors (e.g. GFH0.8 will set the low gradient factor to" \
+                " 80%\n\n"  # help text for explaining how to do things
 
     trigger_string = '!deco'  # string to listen for as trigger
 
