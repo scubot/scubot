@@ -13,7 +13,7 @@ client = discord.Client()
 
 bot_version = '0.1.0'
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost, Karma()]
+BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost(), Karma()]
 
 
 @client.event
