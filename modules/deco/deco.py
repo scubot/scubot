@@ -5,7 +5,7 @@ import shlex
 class Deco(BotModule):
     name = 'deco'  # name of your module
 
-    description = 'This module preforms decompression calculations using the Buehlmann ZH-16 decompression algorithm ' \
+    description = 'This module preforms decompression calculations using the Bühlmann ZHL-16C decompression algorithm ' \
                   'with gradient factors(30,80 by default)'  # description of its function
 
     help_text = "G : Adds a gas to the gas list, takes the form of G<FrN2>/<FrHe>," \
