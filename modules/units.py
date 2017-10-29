@@ -16,7 +16,7 @@ class Units(BotModule):
                 'past 10 messages and converts the first unit it finds, by adding all it will convert all the units ' \
                 'found in the past 10 messages.'
 
-    trigger_string = '!convert'
+    trigger_string = 'convert'
 
     Unit = namedtuple("Unit", "name prefix conversionValue")  # makeshift struct
 
@@ -47,7 +47,8 @@ class Units(BotModule):
         channel = message.channel
         if 'all' in message.content:  # convert all recent messages rather than just the first one
             bulk = True
-        if message.content.lower() == self.trigger_string or message.content == self.trigger_string + ' all':
+        if message.content.lower() == self.trigger_char + self.trigger_string or \
+                        message.content == self.trigger_char + self.trigger_string + ' all':
             async for msg in client.logs_from(channel, limit=self.historyLimit):
                 for unit in self.AvailableUnits:
                     if msg.author != client.user:  # don't convert yourself
@@ -59,7 +60,7 @@ class Units(BotModule):
                             for send in messages:
                                 await client.send_message(message.channel, send)
                             if not bulk:
-                                break  # break after 1 message unless bulk
+                                return  # break after 1 message unless bulk
 
         else:  # this is for explicit conversions (eg '!convert 10 ft')
             for unit in self.AvailableUnits:

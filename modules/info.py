@@ -11,7 +11,7 @@ class Info(BotModule):
     help_text = "Write !info followed by the name of the module to access it's description, for example !info Units " \
                 ' will access the description of the Units module.'  # help text for explaining how to do things
 
-    trigger_string = '!info'  # string to listen for as trigger
+    trigger_string = 'info'  # string to listen for as trigger
 
     module_version = '1.0.0'
 

@@ -11,7 +11,7 @@ class RedditPost(BotModule):
 
     help_text = 'This module has no callable functions'  # help text for explaining how to do things
 
-    trigger_string = '!reddit'  # string to listen for as trigger
+    trigger_string = 'reddit'  # string to listen for as trigger
 
     has_background_loop = True
 

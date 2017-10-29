@@ -12,7 +12,7 @@ class Status(BotModule):
 
     help_text = 'Usage: `!status` shows information about this instance of scubot.'
 
-    trigger_string = '!status'
+    trigger_string = 'status'
 
     init_time = time.time()
 

@@ -2,6 +2,7 @@ from modules.botModule import BotModule
 from modules.deco.algorithm import *
 import shlex
 
+
 class Deco(BotModule):
     name = 'deco'  # name of your module
 
@@ -19,7 +20,7 @@ class Deco(BotModule):
                 "GFH : Sets the high percentage for gradient factors (e.g. GFH0.8 will set the high gradient factor to" \
                 " 80%\n\n"  # help text for explaining how to do things
 
-    trigger_string = '!deco'  # string to listen for as trigger
+    trigger_string = 'deco'  # string to listen for as trigger
 
     has_background_loop = False  # start background loop
 
