@@ -44,7 +44,7 @@ class Karma(BotModule):
                          :-1]:  # Check if person who reacted has already reacted to this message
                     for u in await client.get_reaction_users(x):
                         rlist.append(u)
-                if user not in rlist:  # and reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
+                if user not in rlist and reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
                     if self.module_db.get(target_user.userid == reaction.message.author.id) is None:
                         self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
                     else:
