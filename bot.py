@@ -24,7 +24,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     for bot_module in BotModule.loaded_modules:
-        if message.content.startswith(bot_module.trigger_string):
+        if message.content.startswith(bot_module.trigger_char + bot_module.trigger_string):
             await bot_module.parse_command(message, client)
 
 

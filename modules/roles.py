@@ -12,7 +12,7 @@ class Roles(BotModule):
                 ' Executing it when you already have the role assigned will remove you' \
                 ' from that role.'
 
-    trigger_string = '!role'  # String to listen for as trigger
+    trigger_string = 'role'  # String to listen for as trigger
 
     module_version = '1.0.0'
 

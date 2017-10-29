@@ -11,7 +11,7 @@ class Karma(BotModule):
 
         help_text = 'This module has no callable functions'
 
-        trigger_string = '!karma'
+        trigger_string = 'karma'
 
         module_version = '1.0.0'
 

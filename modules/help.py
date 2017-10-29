@@ -11,7 +11,7 @@ class Help(BotModule):
     help_text = "Write !help followed by the name of the module to access it's help text, for example !help Units " \
                 ' will access the help for the Units module. Type !help Modules to see loaded modules.'  # help text for explaining how to do things
 
-    trigger_string = '!help'  # string to listen for as trigger
+    trigger_string = 'help'  # string to listen for as trigger
 
     module_version = '1.0.0'
 

@@ -16,6 +16,8 @@ class BotModule:
 
     loaded_modules = []
 
+    trigger_char = '!'  # char preceding trigger string
+
     module_version = '0.0.0'
 
     def __init__(self):
