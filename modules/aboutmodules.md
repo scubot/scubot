@@ -19,6 +19,8 @@ class Feature(BotModule):
 
     trigger_string = ''  # string to listen for as trigger
 
+    trigger_char = '' # optional: override global trigger_char
+
     has_background_loop = False  # start background loop
 
     listen_for_reaction = False # listen for a reaction
