@@ -15,9 +15,9 @@ class Deco(BotModule):
                 "D : Add depths and times to the model, takes the form D<Depth1>,<Time1>:<Depth2>,<Time2>... " \
                 "For example a dive that goes to 10 meters for 10 minutes then goes to 60 meters for 5 minutes" \
                 " would be expressed as D10,10:60,5\n\n" \
-                "GFL : Sets the low percentage for gradient factors (e.g. GFL0.3 will set the low gradient factor to" \
+                "GFL : Sets the low percentage for gradient factors (e.g. GFL30 will set the low gradient factor to" \
                 " 30%\n\n" \
-                "GFH : Sets the high percentage for gradient factors (e.g. GFH0.8 will set the high gradient factor to" \
+                "GFH : Sets the high percentage for gradient factors (e.g. GFH80 will set the high gradient factor to" \
                 " 80%\n\n"  # help text for explaining how to do things
 
     trigger_string = 'deco'  # string to listen for as trigger
@@ -33,13 +33,13 @@ class Deco(BotModule):
         for i in msg:
             if i.startswith('GFL'):
                 try:
-                    deco_actual.GFLow = float(i.replace('GFL', ''))
+                    deco_actual.GFLow = float(i.replace('GFL', '')) / 100  # Divide by 100 to make decimal form
                 except:
                     await client.send_message(message.channel, 'Invalid parameter for GFL')
                     return
             elif i.startswith('GFH'):
                 try:
-                    deco_actual.GFHigh = float(i.replace('GFH', ''))
+                    deco_actual.GFHigh = float(i.replace('GFH', '')) / 100  # Divide by 100 to make decimal form
                 except:
                     await client.send_message(message.channel, 'Invalid parameter for GFH')
                     return
