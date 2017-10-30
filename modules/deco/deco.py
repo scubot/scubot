@@ -27,8 +27,7 @@ class Deco(BotModule):
     module_version = '1.0.0'  # version of the current module
 
     async def parse_command(self, message, client):
-        await client.send_message(message.channel, '**This algorithm is a prototype and has known issues, not for '
-                                                   'actual dive planning!**')
+        message_string = '**This algorithm is a prototype and has known issues, not for actual dive planning!**\n\n'
         deco_actual = DecoAlgorithm()
         msg = shlex.split(message.content)
         for i in msg:
@@ -67,10 +66,13 @@ class Deco(BotModule):
                     return
         if deco_actual.get_ceiling() > 1:
             schedule = deco_actual.get_deco_schedule()
-            message_string = ''
             for i in range(len(schedule)):
-                message_string += "Deco Depth (" + str(i) + "): " + str(bar_to_meter(schedule[i].Depth)) + '\n'
-                message_string += "Deco time (" + str(i) + "): " + str(math.ceil(schedule[i].Time)) + '\n\n'
-            await client.send_message(message.channel, message_string)
+                message_string += "Deco Depth (" + str(i) + "): " + \
+                                  str("{0:.2f}".format(math.floor(bar_to_meter(schedule[i].Depth)))) + '\n'
+
+                message_string += "Deco time (" + str(i) + "): " + \
+                                  str("{0:.2f}".format(math.ceil(schedule[i].Time))) + '\n\n'
+
         else:
-            await client.send_message(message.channel, "Remaining No Stop Time: " + str(deco_actual.get_no_deco_time()))
+            message_string += "Remaining No Stop Time: " + str(math.ceil(deco_actual.get_no_deco_time()))
+        await client.send_message(message.channel, message_string)
