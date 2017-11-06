@@ -1,6 +1,5 @@
 import discord
-from tinydb import TinyDB, Query
-from modules.botModule import BotModule
+from modules.botModule import *
 import shlex
 
 

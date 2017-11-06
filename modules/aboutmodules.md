@@ -7,7 +7,7 @@ Writing modules for the `scubot` is designed to be easy. Modules are stored in t
 The module itself (`feature.py` in this case) looks like this:
 ```Python
 import discord
-from modules.botModule import BotModule
+from modules.botModule import *
 import ... # whatever is needed for your module
 
 class Feature(BotModule):
