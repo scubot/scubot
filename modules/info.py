@@ -20,7 +20,7 @@ class Info(BotModule):
     async def parse_command(self, message, client):
         msg = shlex.split(message.content)
         if len(msg) == 1:
-            await client.send_message(message.channel, self.help_text)
+            await self.send_message(client, message, self.help_text)
         else:
             module_name = msg[1].lower()
             for botModule in self.loaded_modules:
