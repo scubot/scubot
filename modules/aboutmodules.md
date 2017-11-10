@@ -63,12 +63,14 @@ This property is currently unused but will become part of the help module and sh
 This property is used by the help module in order to provide usage information to the user, this should should state what commands your module takes and how it responds (it is recommended to include examples)
 ### trigger\_string
 This is the string that your module will listen for when a message is received.
+### trigger\_char
+This is an optional property that can be used to override the global triggering character defined in `botModule.py`.
 ### loaded\_modules
 This property is a list of all the currently loaded modules, and can be used for accessing other modules or checking dependencies.
 ### has\_background\_loop
 This defines whether the module has a background loop that needs to be added to the event loop
 ### module\_db
-This is a [TinyDB](https://pypi.python.org/pypi/tinydb) object that links to `./modules/databases/<module name>.json` and is used for a modules permanent storage.
+This is a [TinyDB](https://pypi.python.org/pypi/tinydb) object that links to `./modules/databases/<module name>.json` and is used for a modules permanent storage. 
 ### module\_version
 This is the current version number of the module
 ### parse\_command(message, client)
