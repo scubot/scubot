@@ -18,23 +18,24 @@ class Units(BotModule):
 
     trigger_string = 'convert'
 
-    Unit = namedtuple("Unit", "name prefix conversionValue")  # makeshift struct
+    Unit = namedtuple("Unit", "name prefix conversionValue excludes")  # makeshift struct
 
-    AvailableUnits = [Unit("feet", "ft", 0.3048),
-                      Unit("meters", "m", 3.28084),
-                      Unit("pounds", "lbs", 0.453592),
-                      Unit("kilograms", "kg", 2.20462),
-                      Unit("fathoms", "fsw", 1.8288),
-                      Unit("cubic feet", "cft", 28.3168),
-                      Unit("liters", "L", 0.035314608614736)]
+    AvailableUnits = [Unit("pounds per square inch", "psi", 0.068947697587212, "default exclude"),
+                      Unit("feet", "ft", 0.3048, "default exclude"),
+                      Unit("meters", "m", 3.28084, "default exclude"),
+                      Unit("pounds", "lbs", 0.453592, "pounds per square inch"),
+                      Unit("kilograms", "kg", 2.20462, "default exclude"),
+                      Unit("fathoms", "fsw", 1.8288, "default exclude"),
+                      Unit("bar", "br", 14.5038, "default exclude")]
 
-    UnitPairs = {'feet': 'meters',
+    UnitPairs = {'pounds per square inch': 'bar',
+                 'bar': 'pounds per square inch',
+                 'feet': 'meters',
                  'meters': 'feet',
                  'pounds': 'kilograms',
                  'kilograms': 'pounds',
-                 'fathoms': 'meters',
-                 'cubic feet': 'liters',
-                 'liters': 'cubic feet'}
+                 'fathoms': 'meters'
+                 }
 
     historyLimit = 10  # number of messages to search back for conversion
 
@@ -47,9 +48,8 @@ class Units(BotModule):
         channel = message.channel
         if 'all' in message.content:  # convert all recent messages rather than just the first one
             bulk = True
-        if message.content.lower() == self.trigger_char + self.trigger_string or \
-                        message.content == self.trigger_char + self.trigger_string + ' all':
-            async for msg in client.logs_from(channel, limit=self.historyLimit):
+        if message.content.lower() == self.trigger_char + self.trigger_string or message.content == self.trigger_char + self.trigger_string + ' all':
+            for msg in client.logs_from(channel, limit=self.historyLimit):
                 for unit in self.AvailableUnits:
                     if msg.author != client.user:  # don't convert yourself
                         send_message = self.parse_units(msg, unit)
@@ -71,11 +71,12 @@ class Units(BotModule):
                         await client.send_message(message.channel, send)
 
     def parse_units(self, message, unit):
-        if re.search('([0-9]|\.)+(| )(' + unit.prefix + '|' + unit.name + ')', message.content) is not None:
+        if re.search('([0-9]|\.)+(| )(?!' + unit.excludes + ')(' + unit.prefix + '|' + unit.name + ')',
+                     message.content) is not None:
             response = ''
             first_loop = True  # keep track of when to add commas
-            message_regex = re.finditer('([0-9]|\.)+(| )(' + unit.prefix + '|' + unit.name + ')', message.content)
-
+            message_regex = re.finditer(
+                '([0-9]|\.)+(| )(?!' + unit.excludes + ')(' + unit.prefix + '|' + unit.name + ')', message.content)
             for match in message_regex:
                 string = match.group(0)  # match group 0 is the message
                 try:
