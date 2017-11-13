@@ -7,7 +7,7 @@ from modules.botModule import BotModule
 class RedditPost(BotModule):
     name = 'RedditPost'  # name of your module
 
-    description = 'RedditPost automatically posts recent posts on r/scuba'  # description of its function
+    description = 'RedditPost automatically posts recent posts from r/scuba'  # description of its function
 
     help_text = 'This module has no callable functions'  # help text for explaining how to do things
 
@@ -22,6 +22,11 @@ class RedditPost(BotModule):
     sub_name = 'scuba'  # subreddit to get post from
 
     module_version = '1.0.0'
+
+    post_colors = {0: 0xDEADBF,  # selfpost/text post
+                   1: 0xDEADBF,  # content with preview (image, gif, video, etc)
+                   2: 0xDEADBF,  # unused AFAIK
+                   3: 0xDEADBF}  # other posts (links to webpages)
 
     updateTime = 5  # minutes
 
