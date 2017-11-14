@@ -66,13 +66,16 @@ class Deco(BotModule):
                     return
         if deco_actual.get_ceiling() > 1:
             schedule = deco_actual.get_deco_schedule()
+            time_to_surface = 0
             for i in range(len(schedule)):
                 message_string += "Deco Depth (" + str(i) + "): " + \
-                                  str("{0:.2f}".format(math.floor(bar_to_meter(schedule[i].Depth)))) + '\n'
+                                  str("{0:.2f}".format(math.floor(bar_to_meter(schedule[i].Depth)))) + ' meters \n'
 
                 message_string += "Deco time (" + str(i) + "): " + \
-                                  str("{0:.2f}".format(math.ceil(schedule[i].Time))) + '\n\n'
+                                  str("{0:.2f}".format(math.ceil(schedule[i].Time))) + ' min\n\n'
+                time_to_surface += schedule[i].Time
+            message_string += "Time to surface: " + str("{0:.2f}".format(math.ceil(time_to_surface))) + " min"
 
         else:
-            message_string += "Remaining No Stop Time: " + str(math.ceil(deco_actual.get_no_deco_time()))
+            message_string += "Remaining No Stop Time: " + str(math.ceil(deco_actual.get_no_deco_time())) + " min"
         await client.send_message(message.channel, message_string)
