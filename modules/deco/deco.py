@@ -24,7 +24,7 @@ class Deco(BotModule):
 
     has_background_loop = False  # start background loop
 
-    module_version = '1.0.0'  # version of the current module
+    module_version = '1.1.0'  # version of the current module
 
     async def parse_command(self, message, client):
         message_string = '**This algorithm is a prototype and has known issues, not for actual dive planning!**\n\n'

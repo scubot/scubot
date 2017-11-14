@@ -21,7 +21,7 @@ class RedditPost(BotModule):
 
     sub_name = 'scuba'  # subreddit to get post from
 
-    module_version = '1.0.0'
+    module_version = '1.0.1'
 
     post_colors = {0: 0xDEADBF,  # selfpost/text post
                    1: 0xDEADBF,  # content with preview (image, gif, video, etc)

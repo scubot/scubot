@@ -12,7 +12,7 @@ class Karma(BotModule):
 
         trigger_string = 'karma'
 
-        module_version = '1.0.0'
+        module_version = '1.0.1'
 
         listen_for_reaction = True
 

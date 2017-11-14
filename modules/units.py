@@ -39,7 +39,7 @@ class Units(BotModule):
 
     historyLimit = 10  # number of messages to search back for conversion
 
-    module_version = '1.0.1'
+    module_version = '1.0.2'
 
     # This is where the fun begins
 
