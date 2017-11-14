@@ -42,7 +42,7 @@ class RedditPost(BotModule):
         # An loop here is needed because for some reason html.json()["data]["children"] fails for no reason sporadically
         # Therefore if you loop it, it will eventually pass and return data.
         count = 0
-        while count < 100:
+        while count < 1000000000:
             try:
                 html = requests.get("https://www.reddit.com/r/" + sub + "/new.json")
                 data = html.json()["data"]["children"]
@@ -50,7 +50,7 @@ class RedditPost(BotModule):
             except:
                 pass
                 count += 1
-                if count > 100:
+                if count > 1000000000:
                     raise RuntimeError("Reddit module going into infinite loop")
 
     def is_selfpost(self, data):
