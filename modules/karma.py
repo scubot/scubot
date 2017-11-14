@@ -36,7 +36,10 @@ class Karma(BotModule):
                 await client.send_message(message.channel, msg)
 
         async def on_reaction_add(self, reaction, client, user):
-            if reaction.emoji in self.reaction_emojis or reaction.emoji.name in self.reaction_emojis:
+            emoji_text = reaction.emoji
+            if type(reaction.emoji) is not str:
+                emoji_text = reaction.emoji.name
+            if emoji_text in self.reaction_emojis:
                 target_user = Query()
                 rlist = []
                 for x in reaction.message.reactions[
