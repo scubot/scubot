@@ -23,12 +23,14 @@ class RedditPost(BotModule):
 
     module_version = '1.0.1'
 
-    post_colors = {0: 0xDEADBF,  # selfpost/text post
-                   1: 0xDEADBF,  # content with preview (image, gif, video, etc)
-                   2: 0xDEADBF,  # unused AFAIK
-                   3: 0xDEADBF}  # other posts (links to webpages)
+    post_colors = [0xFF0000,  # selfpost/text post
+                   0x003298,  # content with preview (image, gif, video, etc)
+                   0xFF0000,  # unused AFAIK
+                   0xFFFFFF]  # other posts (links to webpages)
 
     updateTime = 5  # minutes
+
+    update_attempts = 1000000000
 
     def __init__(self):
         BotModule.__init__(self)
@@ -42,7 +44,7 @@ class RedditPost(BotModule):
         # An loop here is needed because for some reason html.json()["data]["children"] fails for no reason sporadically
         # Therefore if you loop it, it will eventually pass and return data.
         count = 0
-        while count < 1000000000:
+        while count < self.update_attempts:
             try:
                 html = requests.get("https://www.reddit.com/r/" + sub + "/new.json")
                 data = html.json()["data"]["children"]
@@ -50,7 +52,7 @@ class RedditPost(BotModule):
             except:
                 pass
                 count += 1
-                if count > 1000000000:
+                if count > self.update_attempts:
                     raise RuntimeError("Reddit module going into infinite loop")
 
     def is_selfpost(self, data):
@@ -80,6 +82,8 @@ class RedditPost(BotModule):
 
     def construct_embed(self, data, client):
         det = self.determine(data)
+        description = ''
+        image_url = ''
         if det == 0:
             description = self.truncate(data["selftext"], 1600)
             image_url = None
@@ -93,10 +97,11 @@ class RedditPost(BotModule):
             description = data["url"]
             image_url = None
 
-        embed = discord.Embed(title=self.truncate(data['title'], 255), description=description, colour=0xDEADBF)
+        embed = discord.Embed(title=self.truncate(data['title'], 255), description=description,
+                              colour=self.post_colors[det])
         embed.set_author(name=self.truncate(data['author'], 255))
         embed.url = 'https://www.reddit.com' + data['permalink']
-        if image_url is not None:
+        if image_url is not '':
             embed.set_image(url=image_url)
         return embed
 
