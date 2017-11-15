@@ -51,6 +51,7 @@ class RedditPost(BotModule):
                 return data
             except:
                 pass
+                asyncio.sleep(2)
                 count += 1
                 if count > self.update_attempts:
                     raise RuntimeError("Reddit module going into infinite loop")
@@ -109,15 +110,19 @@ class RedditPost(BotModule):
         await client.wait_until_ready()
         channel = client.get_channel(self.channel)
         while not client.is_closed:
-            embeds = []
-            data = self.get(self.sub_name)
-            for post in data:
-                post_data = post['data']
-                if post_data['id'] == self.lastPostId:
-                    break
-                embeds.append(self.construct_embed(post_data, client))
-            embeds.reverse()
-            for embed in embeds:
-                await client.send_message(channel, embed=embed)
-            self.lastPostId = data[0]['data']['id']
-            await asyncio.sleep(60)
+            try:
+                embeds = []
+                data = self.get(self.sub_name)
+                for post in data:
+                    post_data = post['data']
+                    if post_data['id'] == self.lastPostId:
+                        break
+                    embeds.append(self.construct_embed(post_data, client))
+                embeds.reverse()
+                for embed in embeds:
+                    await client.send_message(channel, embed=embed)
+                self.lastPostId = data[0]['data']['id']
+                await asyncio.sleep(60)
+            except Exception as e:
+                await client.send_message(channel, "An error occured in redditpost, hopefully it is handled well and it"
+                                                   " doesn't break. \n\n Here is the exception for the devs:" + str(e))
