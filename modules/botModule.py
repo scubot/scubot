@@ -16,7 +16,7 @@ class BotModule:
 
     loaded_modules = []
 
-    admin_modules = [370934086111330308, 372729159933362177]
+    admin_modules = ['370934086111330308', '372729159933362177']
 
     trigger_char = '!'  # char preceding trigger string
 
