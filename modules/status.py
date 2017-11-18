@@ -40,7 +40,10 @@ class Status(BotModule):
             for botModule in self.loaded_modules:
                 module_string += botModule.name + ' (' + botModule.module_version + '), '
             module_string = module_string[:-2]
-            msg = '```\n Uptime: ' + uptime_string + '\n Loaded modules: ' + module_string + '\n Bot version: ' + self.bot_version + '\n```'
+            msg = '```\n Uptime: ' + uptime_string + '\n' \
+                  'Loaded modules: ' + module_string + '\n' \
+                  'Bot version: ' + self.bot_version + '\n' \
+                  'Powered by scubot: https://github.com/suclearnub/scubot```'
             await client.send_message(message.channel, msg)
         else:
             return
