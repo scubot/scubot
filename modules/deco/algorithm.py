@@ -46,6 +46,12 @@ class DecoAlgorithm(DecoConstants):
     AmbientPressure = 1
     ppWaterVapor = 0
 
+    def __init__(self):
+        self.NitrogenLoadings = [0] * 16
+        self.HeliumLoadings = [0] * 16
+        self.TotalLoadings = [0] * 16
+        self.TissueAccentCeiling = [-math.inf] * 16
+
     def create_gas(self, fr_o2, fr_he):
         fr_n2 = 1 - fr_o2 - fr_he
         self.Gases.append(self.Gas(fr_n2, fr_o2, fr_he))
