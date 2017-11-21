@@ -43,7 +43,7 @@ class Status(BotModule):
             msg = '```\n Uptime: ' + uptime_string + '\n' \
                   'Loaded modules: ' + module_string + '\n' \
                   'Bot version: ' + self.bot_version + '\n' \
-                  'Powered by scubot: https://github.com/suclearnub/scubot```'
+                  'Powered by scubot: https://github.com/scubot/scubot```'
             await client.send_message(message.channel, msg)
         else:
             return
