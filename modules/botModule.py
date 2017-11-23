@@ -2,6 +2,7 @@ from tinydb import TinyDB, Query
 
 
 class BotModule:
+
     name = ''  # name of your module
 
     description = ''  # description of its function
@@ -36,3 +37,10 @@ class BotModule:
 
     async def on_reaction_remove(self, reaction, client, user):
         raise NotImplementedError("on_reaction_remove function not implemented in module:" + self.name)
+
+    @classmethod
+    async def send_message(self, client, is_embed, target, content):
+        if is_embed:
+            client.send_message(target, embed=content)
+        else:
+            client.send_message(target, content)
