@@ -26,7 +26,7 @@ class Deco(BotModule):
 
     module_version = '1.1.0'  # version of the current module
 
-    async def parse_command(self, message, client):
+    async def parse_command(self, message, discord_interface):
         message_string = '**This algorithm is a prototype and has known issues, not for actual dive planning!**\n\n'
         deco_actual = DecoAlgorithm()
         msg = shlex.split(message.content)
@@ -35,13 +35,13 @@ class Deco(BotModule):
                 try:
                     deco_actual.GFLow = float(i.replace('GFL', '')) / 100  # Divide by 100 to make decimal form
                 except:
-                    await client.send_message(message.channel, 'Invalid parameter for GFL')
+                    await discord_interface.send_message(message.channel, 'Invalid parameter for GFL')
                     return
             elif i.startswith('GFH'):
                 try:
                     deco_actual.GFHigh = float(i.replace('GFH', '')) / 100  # Divide by 100 to make decimal form
                 except:
-                    await client.send_message(message.channel, 'Invalid parameter for GFH')
+                    await discord_interface.send_message(message.channel, 'Invalid parameter for GFH')
                     return
             elif i.startswith('G'):
                 try:
@@ -50,7 +50,7 @@ class Deco(BotModule):
                     fr_he = float(parameters[1])
                     deco_actual.create_gas(fr_n2, fr_he)
                 except:
-                    await client.send_message(message.channel, 'Invalid parameter for Gas')
+                    await discord_interface.send_message(message.channel, 'Invalid parameter for Gas')
                     return
             elif i.startswith('D'):
                 try:
@@ -62,7 +62,7 @@ class Deco(BotModule):
                         deco_actual.add_decent(meter_to_bar(depth), meter_to_bar(deco_actual.DecentRate))
                         deco_actual.add_bottom(time)
                 except:
-                    await client.send_message(message.channel, 'Invalid parameter for Dive Profile')
+                    await discord_interface.send_message(message.channel, 'Invalid parameter for Dive Profile')
                     return
         if deco_actual.get_ceiling() > 1:
             schedule = deco_actual.get_deco_schedule()
@@ -78,4 +78,4 @@ class Deco(BotModule):
 
         else:
             message_string += "Remaining No Stop Time: " + str(math.ceil(deco_actual.get_no_deco_time())) + " min"
-        await client.send_message(message.channel, message_string)
+        await discord_interface.send_message(message.channel, message_string)

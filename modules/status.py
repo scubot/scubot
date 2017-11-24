@@ -30,7 +30,7 @@ class Status(BotModule):
         days, hours = divmod(hours, 24)
         return days, hours, minutes, seconds
 
-    async def parse_command(self, message, client):
+    async def parse_command(self, message, discord_interface):
         if message.channel.id in self.admin_modules:
             uptime = time.time() - self.init_time
             uptime_string = [str(round(x, 0))[:-2] for x in self.uptime_convert(uptime)]
@@ -44,6 +44,6 @@ class Status(BotModule):
                   'Loaded modules: ' + module_string + '\n' \
                   'Bot version: ' + self.bot_version + '\n' \
                   'Powered by scubot: https://github.com/scubot/scubot```'
-            await client.send_message(message.channel, msg)
+            await discord_interface.send_message(message.channel, msg)
         else:
             return

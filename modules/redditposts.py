@@ -37,8 +37,8 @@ class RedditPost(BotModule):
         data = self.get(self.sub_name)
         self.lastPostId = data[0]['data']['id']
 
-    async def parse_command(self, message, client):
-        await client.send_message(message.channel, self.help_text + '. ' + self.description)
+    async def parse_command(self, message, discord_interface):
+        await discord_interface.send_message(message.channel, self.help_text + '. ' + self.description)
 
     def get(self, sub):
         # An loop here is needed because for some reason html.json()["data]["children"] fails for no reason sporadically
@@ -81,7 +81,7 @@ class RedditPost(BotModule):
         from textwrap import shorten
         return shorten(text, width)
 
-    def construct_embed(self, data, client):
+    def construct_embed(self, data, discord_interface):
         det = self.determine(data)
         description = ''
         image_url = ''
@@ -106,10 +106,10 @@ class RedditPost(BotModule):
             embed.set_image(url=image_url)
         return embed
 
-    async def background_loop(self, client):
-        await client.wait_until_ready()
-        channel = client.get_channel(self.channel)
-        while not client.is_closed:
+    async def background_loop(self, discord_interface):
+        await discord_interface.client.wait_until_ready()
+        channel = discord_interface.client.get_channel(self.channel)
+        while not discord_interface.client.is_closed:
             try:
                 embeds = []
                 data = self.get(self.sub_name)
@@ -117,12 +117,12 @@ class RedditPost(BotModule):
                     post_data = post['data']
                     if post_data['id'] == self.lastPostId:
                         break
-                    embeds.append(self.construct_embed(post_data, client))
+                    embeds.append(self.construct_embed(post_data, discord_interface))
                 embeds.reverse()
                 for embed in embeds:
-                    await client.send_message(channel, embed=embed)
+                    await discord_interface.send_message(channel, embed=embed)
                 self.lastPostId = data[0]['data']['id']
                 await asyncio.sleep(60)
             except Exception as e:
-                await client.send_message(channel, "An error occured in redditpost, hopefully it is handled well and it"
+                await discord_interface.send_message(channel, "An error occured in redditpost, hopefully it is handled well and it"
                                                    " doesn't break. \n\n Here is the exception for the devs:" + str(e))

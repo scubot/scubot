@@ -17,10 +17,10 @@ class Help(BotModule):
 
     direct_mode = True  # Send messages via DM instead of in the channel
 
-    async def parse_command(self, message, client):
+    async def parse_command(self, message, discord_interface):
         msg = shlex.split(message.content)
         if len(msg) == 1:
-            await self.send_message(client, message, "Help: \n\n" + self.help_text)
+            await self.send_message(discord_interface, message, "Help: \n\n" + self.help_text)
         else:
             module_name = msg[1].lower()
             if module_name == 'modules':
@@ -28,17 +28,17 @@ class Help(BotModule):
                 for botModule in self.loaded_modules:
                     module_string += botModule.name + ', '
                 module_string = module_string[:-2]
-                await self.send_message(client, message, 'Loaded modules: \n\n' + module_string)
+                await self.send_message(discord_interface, message, 'Loaded modules: \n\n' + module_string)
             for botModule in self.loaded_modules:
                 if botModule.name == module_name:
                     if botModule.help_text == '':
-                        await self.send_message(client, message, botModule.name + ' has no help text, tell the module '
+                        await self.send_message(discord_interface, message, botModule.name + ' has no help text, tell the module '
                                                                                   'maintainer to fix it')
                     else:
-                        await self.send_message(client, message, botModule.name + ": \n\n " + botModule.help_text)
+                        await self.send_message(discord_interface, message, botModule.name + ": \n\n " + botModule.help_text)
 
-    async def send_message(self, client, message, send):
+    async def send_message(self, discord_interface, message, send):
         if self.direct_mode:
-            await client.send_message(message.author, send)
+            await discord_interface.send_message(message.author, send)
         else:
-            await client.send_message(message.channel, send)
+            await discord_interface.send_message(message.channel, send)

@@ -43,22 +43,22 @@ class Units(BotModule):
 
     # This is where the fun begins
 
-    async def parse_command(self, message, client):
+    async def parse_command(self, message, discord_interface):
         bulk = False
         channel = message.channel
         if 'all' in message.content:  # convert all recent messages rather than just the first one
             bulk = True
         if message.content.lower() == self.trigger_char + self.trigger_string or message.content == self.trigger_char + self.trigger_string + ' all':
-            async for msg in client.logs_from(channel, limit=self.historyLimit):
+            async for msg in discord_interface.client.logs_from(channel, limit=self.historyLimit):
                 for unit in self.AvailableUnits:
-                    if msg.author != client.user:  # don't convert yourself
+                    if msg.author != discord_interface.client.user:  # don't convert yourself
                         send_message = self.parse_units(msg, unit)
 
                         if send_message != '':  # returns empty when no match found (can't send empty message)
                             messages = send_message.split(',')  # send different conversions as different messages
 
                             for send in messages:
-                                await client.send_message(message.channel, send)
+                                await discord_interface.send_message(message.channel, send)
                             if not bulk:
                                 return  # break after 1 message unless bulk
 
@@ -68,7 +68,7 @@ class Units(BotModule):
                 if send_message != '':  # returns empty when no match found (can't send empty message)
                     messages = send_message.split(',')  # send different conversions as different messages
                     for send in messages:
-                        await client.send_message(message.channel, send)
+                        await discord_interface.send_message(message.channel, send)
 
     def parse_units(self, message, unit):
         if re.search('([0-9]|\.)+(| )(?!' + unit.excludes + ')(' + unit.prefix + '|' + unit.name + ')',

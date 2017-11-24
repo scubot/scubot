@@ -26,21 +26,15 @@ class BotModule:
     def __init__(self):
         self.module_db = TinyDB('./modules/databases/' + self.name)
 
-    async def parse_command(self, message, client):
+    async def parse_command(self, message, discord_interface):
         raise NotImplementedError("Parse function not implemented in module:" + self.name)
 
-    async def background_loop(self, client):
+    async def background_loop(self, discord_interface):
         raise NotImplementedError("background_loop function not implemented in module:" + self.name)
 
-    async def on_reaction_add(self, reaction, client, user):
+    async def on_reaction_add(self, reaction, discord_interface, user):
         raise NotImplementedError("on_reaction_add function not implemented in module:" + self.name)
 
-    async def on_reaction_remove(self, reaction, client, user):
+    async def on_reaction_remove(self, reaction, discord_interface, user):
         raise NotImplementedError("on_reaction_remove function not implemented in module:" + self.name)
 
-    @classmethod
-    async def send_message(self, client, is_embed, target, content):
-        if is_embed:
-            client.send_message(target, embed=content)
-        else:
-            client.send_message(target, content)

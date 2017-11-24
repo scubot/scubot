@@ -18,14 +18,14 @@ class Karma(BotModule):
 
         reaction_emojis = [':star:', '⭐', 'waitwhat']  # apparently some return as unicode emoji
 
-        async def parse_command(self, message, client):
+        async def parse_command(self, message, discord_interface):
             msg = shlex.split(message.content)
             target_user = Query()
             if len(msg) > 1:
                 if msg[1] == 'reset':
                     self.module_db.update({'karma': 0}, target_user.userid == message.author.id)
                     msg = "[:ok_hand:] Your karma has been reset to 0."
-                    await client.send_message(message.channel, msg)
+                    await discord_interface.send_message(message.channel, msg)
                 else:
                     pass
             else:
@@ -33,9 +33,9 @@ class Karma(BotModule):
                     self.module_db.insert({'userid': message.author.id, 'karma': 0})
                 user_karma = self.module_db.get(target_user.userid == message.author.id)['karma']
                 msg = message.author.name + "'s karma: " + str(user_karma)
-                await client.send_message(message.channel, msg)
+                await discord_interface.send_message(message.channel, msg)
 
-        async def on_reaction_add(self, reaction, client, user):
+        async def on_reaction_add(self, reaction, discord_interface, user):
             emoji_text = reaction.emoji
             if type(reaction.emoji) is not str:
                 emoji_text = reaction.emoji.name
@@ -44,7 +44,7 @@ class Karma(BotModule):
                 rlist = []
                 for x in reaction.message.reactions[
                          :-1]:  # Check if person who reacted has already reacted to this message
-                    for u in await client.get_reaction_users(x):
+                    for u in await discord_interface.client.get_reaction_users(x):
                         rlist.append(u)
                 if user not in rlist and reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
                     if self.module_db.get(target_user.userid == reaction.message.author.id) is None:
@@ -55,7 +55,7 @@ class Karma(BotModule):
                 else:
                     pass
 
-        async def on_reaction_remove(self, reaction, client, user):
+        async def on_reaction_remove(self, reaction, discord_interface, user):
             if reaction.emoji in self.reaction_emojis:
                 target_user = Query()
                 if reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
