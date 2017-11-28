@@ -17,7 +17,7 @@ class Karma(BotModule):
         listen_for_reaction = True
 
         up_react = [':star:', '⭐', 'waitwhat']  # apparently some return as unicode emoji
-        down_react = [':thumbsdown:']
+        down_react = [':thumbsdown:', '👎']
 
         async def parse_command(self, message, client):
             msg = shlex.split(message.content)
