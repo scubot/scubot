@@ -19,6 +19,10 @@ class Karma(BotModule):
         up_react = [':star:', '⭐', 'waitwhat']  # apparently some return as unicode emoji
         down_react = [':thumbsdown:', '👎']
 
+        ranking_number = 5
+
+        ranking_embed_colour = 0xc0fefe
+
         async def parse_command(self, message, client):
             msg = shlex.split(message.content)
             target_user = Query()
@@ -27,6 +31,18 @@ class Karma(BotModule):
                     self.module_db.update({'karma': 0}, target_user.userid == message.author.id)
                     msg = "[:ok_hand:] Your karma has been reset to 0."
                     await client.send_message(message.channel, msg)
+                elif msg[1] == 'rank':
+                    text = ''
+                    ranked = sorted(self.module_db.all(), key=lambda k: k['karma'])[:self.ranking_number]
+                    for entry in ranked:
+                        user_entry = discord.Client.get_member(client, entry['userid'])
+                        if user_entry is None:
+                            username = 'Unknown user'
+                        else:
+                            username = user_entry.name
+                        text += username + ': ' + entry['karma'] + '\n'
+                    embed = discord.Embed(title='Overview', description=text, colour=self.ranking_embed_colour)
+                    await client.send_message(message.channel, embed=embed)
                 else:
                     pass
             else:
