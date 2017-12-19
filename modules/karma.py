@@ -32,6 +32,7 @@ class Karma(BotModule):
                     msg = "[:ok_hand:] Your karma has been reset to 0."
                     await client.send_message(message.channel, msg)
                 elif msg[1] == 'rank':
+                    pos = 1
                     text = ''
                     ranked = sorted(self.module_db.all(), key=lambda k: k['karma'])[::-1]
                     ranked = ranked[:5]
@@ -41,7 +42,8 @@ class Karma(BotModule):
                             username = 'Unknown user'
                         else:
                             username = user_entry.name
-                        text += username + ': ' + str(entry['karma']) + '\n'
+                        text += str(pos) + '     ' + username + ': ' + str(entry['karma']) + '\n'
+                        pos += 1
                     embed = discord.Embed(title='Overview', description=text, colour=self.ranking_embed_colour)
                     await client.send_message(message.channel, embed=embed)
                 else:
