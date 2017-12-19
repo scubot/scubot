@@ -16,7 +16,7 @@ client = discord.Client()
 
 bot_version = '1.0.0'
 
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), RedditPost(), Karma(), Info(), Deco()]
+BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), Karma(), Info(), Deco()]  # Reddit module removed as it prevented startup
 
 
 @client.event
