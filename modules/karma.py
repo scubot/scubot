@@ -17,7 +17,7 @@ class Karma(BotModule):
         listen_for_reaction = True
 
         up_react = [':star:', '⭐', 'waitwhat']  # apparently some return as unicode emoji
-        down_react = [':thumbsdown:', '👎']
+        down_react = [':thumbsdown:', '👎', 'lionfish']
 
         ranking_number = 5
 
@@ -40,7 +40,7 @@ class Karma(BotModule):
                             username = 'Unknown user'
                         else:
                             username = user_entry.name
-                        text += username + ': ' + entry['karma'] + '\n'
+                        text += username + ': ' + str(entry['karma']) + '\n'
                     embed = discord.Embed(title='Overview', description=text, colour=self.ranking_embed_colour)
                     await client.send_message(message.channel, embed=embed)
                 else:
