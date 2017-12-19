@@ -34,6 +34,7 @@ class Karma(BotModule):
                 elif msg[1] == 'rank':
                     text = ''
                     ranked = sorted(self.module_db.all(), key=lambda k: k['karma'])[:self.ranking_number]
+                    ranked = ranked[::-1]
                     for entry in ranked:
                         user_entry = message.server.get_member(entry['userid'])
                         if user_entry is None:
