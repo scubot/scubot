@@ -35,7 +35,7 @@ class Karma(BotModule):
                     text = ''
                     ranked = sorted(self.module_db.all(), key=lambda k: k['karma'])[:self.ranking_number]
                     for entry in ranked:
-                        user_entry = discord.Server.get_member(client, entry['userid'])
+                        user_entry = message.server.get_member(client, entry['userid'])
                         if user_entry is None:
                             username = 'Unknown user'
                         else:
