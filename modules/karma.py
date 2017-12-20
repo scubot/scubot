@@ -74,13 +74,11 @@ class Karma(BotModule):
                 for u in await client.get_reaction_users(x):
                     rlist.append(u)
 
-            if cooldown.get(target_user.id == user.id) is None:
+            if cooldown.get(target_user.userid == user.id) is None:
                 cooldown.insert({'userid': user.id, 'lastreact': time_now})
                 user_last_react = time_now - self.cooldown_time - 1 # This makes sure that a first time user will always get their first react
-                first_time = True
             else:
                 user_last_react = cooldown.get(target_user.userid == user.id)['lastreact']
-                first_time = False
 
             if user not in rlist and reaction.message.author != user and time_now > user_last_react + self.cooldown_time:  # DISABLE DURING DEVELOPMENT
                 if self.module_db.get(target_user.userid == reaction.message.author.id) is None:
@@ -94,7 +92,7 @@ class Karma(BotModule):
                     new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] - 1
                     self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
 
-                cooldown.update({'lastreact': time_now + self.cooldown_time}, target_user.userid == user.id)
+                cooldown.update({'lastreact': time_now}, target_user.userid == user.id)
 
             else:
                 pass
