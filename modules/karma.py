@@ -1,6 +1,7 @@
 import discord
 from modules.botModule import *
 import shlex
+import time
 
 
 class Karma(BotModule):
@@ -22,6 +23,8 @@ class Karma(BotModule):
         ranking_number = 5
 
         ranking_embed_colour = 0xc0fefe
+
+        cooldown_time = 30
 
         async def parse_command(self, message, client):
             msg = shlex.split(message.content)
@@ -56,6 +59,8 @@ class Karma(BotModule):
                 await client.send_message(message.channel, msg)
 
         async def on_reaction_add(self, reaction, client, user):
+            cooldown = self.module_db.table('cooldown')
+            time_now = int(time.time())
             react_text = reaction.emoji
 
             if type(reaction.emoji) is not str:
@@ -68,7 +73,14 @@ class Karma(BotModule):
                      :-1]:  # Check if person who reacted has already reacted to this message
                 for u in await client.get_reaction_users(x):
                     rlist.append(u)
-            if user not in rlist and reaction.message.author != user:  # DISABLE DURING DEVELOPMENT
+
+            if cooldown.get(target_user.userid == user.id) is None:
+                cooldown.insert({'userid': user.id, 'lastreact': time_now})
+                user_last_react = time_now - self.cooldown_time - 1 # This makes sure that a first time user will always get their first react
+            else:
+                user_last_react = cooldown.get(target_user.userid == user.id)['lastreact']
+
+            if user not in rlist and reaction.message.author != user and time_now > user_last_react + self.cooldown_time:  # DISABLE DURING DEVELOPMENT
                 if self.module_db.get(target_user.userid == reaction.message.author.id) is None:
                     self.module_db.insert({'userid': reaction.message.author.id, 'karma': 1})
 
@@ -79,6 +91,9 @@ class Karma(BotModule):
                 if react_text in self.down_react:
                     new_karma = self.module_db.get(target_user.userid == reaction.message.author.id)['karma'] - 1
                     self.module_db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
+
+                cooldown.update({'lastreact': time_now}, target_user.userid == user.id)
+
             else:
                 pass
 
