@@ -44,7 +44,7 @@ class Karma(BotModule):
                             username = user_entry.name
                         text += str(pos) + '     ' + username + ': ' + str(entry['karma']) + '\n'
                         pos += 1
-                    embed = discord.Embed(title='Overview', description=text, colour=self.ranking_embed_colour)
+                    embed = discord.Embed(title='Top ' + str(self.ranking_number) + ' users with karma', description=text, colour=self.ranking_embed_colour)
                     await client.send_message(message.channel, embed=embed)
                 else:
                     pass
