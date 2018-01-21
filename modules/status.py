@@ -40,10 +40,12 @@ class Status(BotModule):
             for botModule in self.loaded_modules:
                 module_string += botModule.name + ' (' + botModule.module_version + '), '
             module_string = module_string[:-2]
-            msg = '```\n Uptime: ' + uptime_string + '\n' \
-                  'Loaded modules: ' + module_string + '\n' \
-                  'Bot version: ' + self.bot_version + '\n' \
-                  'Powered by scubot: https://github.com/scubot/scubot```'
-            await client.send_message(message.channel, msg)
+            embed = discord.Embed(title="Status", description="Status and information about this bot", color=0x008080)
+            embed.add_field(name="Uptime", value=uptime_string, inline=True)
+            embed.add_field(name="Loaded Modules", value=module_string, inline=True)
+            embed.add_field(name="Bot version", value=self.bot_version, inline=True)
+            embed.add_field(name="Donate", value="QuickRecon: `0xDbB84334a1717E49168369df76F1A21694Ca9696`\nEmerald: `0x93F69Af0e0E12AE0A3217dC61910d4479E4eC3d2`", inline=True)
+            embed.set_footer(text="Powered by scubot: https://github.com/scubot/scubot", inline=True)
+            await client.send_message(message.channel, embed=embed)
         else:
             return
