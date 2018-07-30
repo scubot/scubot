@@ -30,7 +30,7 @@ async def on_message(message):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    if reaction.message.author == client.user:
+    if user == client.user:
         return
     for bot_module in BotModule.loaded_modules:
         if bot_module.listen_for_reaction:
@@ -39,7 +39,7 @@ async def on_reaction_add(reaction, user):
 
 @client.event
 async def on_reaction_remove(reaction, user):
-    if reaction.message.author == client.user:
+    if user == client.user:
         return
     for bot_module in BotModule.loaded_modules:
         if bot_module.listen_for_reaction:
