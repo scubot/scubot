@@ -43,7 +43,7 @@ class Karma(BotModule):
 
         message_returns = []
 
-        scroll = KarmaScrollable(limit=5, color=0xc0fefe, table=module_db, title="List of tags", inline=False)
+        scroll = KarmaScrollable(limit=5, color=0xc0fefe, table=module_db, title="Top users with karma", inline=False)
 
         async def contains_returns(self, message):
             for x in self.message_returns:
