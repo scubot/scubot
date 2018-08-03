@@ -27,7 +27,7 @@ async def on_message(message):
         if message.content.startswith(bot_module.trigger_char + bot_module.trigger_string):
             await bot_module.parse_command(message, client)
     for bot_module in BotModule.loaded_modules:
-        if bot_module.trigger_on_mention and not message.mentions:
+        if bot_module.trigger_on_mention and message.mentions:
             await bot_module.on_mention(message, client)
 
 
