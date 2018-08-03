@@ -14,6 +14,8 @@ class BotModule:
 
     listen_for_reaction = False
 
+    trigger_on_mention = False
+
     loaded_modules = []
 
     admin_modules = ['370934086111330308', '372729159933362177']
