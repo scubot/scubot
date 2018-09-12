@@ -9,7 +9,9 @@ class Karma(BotModule):
 
         description = 'Monitors messages for reactions and adds karma accordingly.'
 
-        help_text = 'This module has no callable functions'
+        help_text = '`!karma` - check how much karma you have. \n' \
+                    '`!karma rank` - show top users with karma. \n' \
+                    '`!karma reset` - resets your karma.'
 
         trigger_string = 'karma'
 
