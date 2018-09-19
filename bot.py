@@ -14,7 +14,7 @@ from modules.botModule import *
 
 client = discord.Client()
 
-bot_version = '1.0.0'
+bot_version = '1.1.0'
 
 BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), Karma(), Info(), Deco()]  # Reddit module removed as it prevented startup
 
