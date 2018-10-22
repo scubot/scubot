@@ -16,6 +16,8 @@ class BotModule:
 
     trigger_on_mention = False
 
+    listen_for_member_join = False
+
     loaded_modules = []
 
     admin_modules = ['370934086111330308', '372729159933362177']
@@ -38,3 +40,6 @@ class BotModule:
 
     async def on_reaction_remove(self, reaction, client, user):
         raise NotImplementedError("on_reaction_remove function not implemented in module:" + self.name)
+
+    async def on_member_join(self, member):
+        raise NotImplementedError("on_member_join function not implemented in module:" + self.name)

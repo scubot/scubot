@@ -14,7 +14,7 @@ from modules.botModule import *
 
 client = discord.Client()
 
-bot_version = '1.1.0'
+bot_version = '1.2.0'
 
 BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), Karma(), Info(), Deco()]  # Reddit module removed as it prevented startup
 
@@ -47,6 +47,15 @@ async def on_reaction_remove(reaction, user):
     for bot_module in BotModule.loaded_modules:
         if bot_module.listen_for_reaction:
             await bot_module.on_reaction_remove(reaction, client, user)
+
+
+@client.event
+async def on_member_join(member):
+    if member == client.user:
+        return
+    for bot_module in BotModule.loaded_modules:
+        if bot_module.listen_for_member_join:
+            await bot_module.on_member_join(client, member)
 
 
 @client.event
