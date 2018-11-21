@@ -8,17 +8,13 @@ import modules.reactionscroll as rs
 class KarmaScrollable(rs.Scrollable):
     async def preprocess(self, client, module_db):
         ranked = sorted(module_db.all(), key=lambda k: k['karma'])[::-1]
-        fallback_users = {}
         ret = []
         for item in ranked:
             user = discord.utils.get(client.get_all_members(), id=item['userid'])
             if not user:
-                try:
-                    user = fallback_users[item['userid']]
-                except KeyError:
-                    user = await client.get_user_info(item['userid'])
-                    fallback_users[item['userid']] = user
-            ret.append([user, item['karma']])
+                ret.append(["User not found...", item['karma']])
+            else:
+                ret.append([user.name, item['karma']])
         return ret
 
     async def refresh(self, client, module_db):
@@ -87,7 +83,6 @@ class Karma(BotModule):
                 return False
 
         async def parse_command(self, message, client):
-            await self.scroll.refresh(client, self.module_db)
             msg = shlex.split(message.content)
             target_user = Query()
             if len(msg) > 1:
@@ -96,6 +91,7 @@ class Karma(BotModule):
                     msg = "[:ok_hand:] Your karma has been reset to 0."
                     await client.send_message(message.channel, msg)
                 elif msg[1] == 'rank':
+                    await self.scroll.refresh(client, self.module_db)
                     m_ret = await client.send_message(message.channel, embed=self.scroll.initial_embed())
                     self.message_returns.append([m_ret, 0])
                     await client.add_reaction(m_ret, "⏪")
