@@ -6,18 +6,25 @@ import modules.reactionscroll as rs
 
 
 class KarmaScrollable(rs.Scrollable):
-    def preprocess(self, client, module_db):
+    async def preprocess(self, client, module_db):
         ranked = sorted(module_db.all(), key=lambda k: k['karma'])[::-1]
+        fallback_users = {}
         ret = []
         for item in ranked:
-            u = discord.utils.get(client.get_all_members(), id=item['userid'])
-            ret.append([u, item['karma']])
+            user = discord.utils.get(client.get_all_members(), id=item['userid'])
+            if not user:
+                try:
+                    user = fallback_users[item['userid']]
+                except KeyError:
+                    user = await client.get_user_info(item['userid'])
+                    fallback_users[item['userid']] = user
+            ret.append([user, item['karma']])
         return ret
 
-    def refresh(self, client, module_db):
+    async def refresh(self, client, module_db):
         self.processed_data.clear()
         self.embeds.clear()
-        self.processed_data = self.preprocess(client, module_db)
+        self.processed_data = await self.preprocess(client, module_db)
         self.create_embeds()
 
 
@@ -80,7 +87,7 @@ class Karma(BotModule):
                 return False
 
         async def parse_command(self, message, client):
-            self.scroll.refresh(client, self.module_db)
+            await self.scroll.refresh(client, self.module_db)
             msg = shlex.split(message.content)
             target_user = Query()
             if len(msg) > 1:
