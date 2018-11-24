@@ -42,11 +42,12 @@ class Karma(BotModule):
 
         cooldown_time = 30
 
-        module_db = TinyDB('./modules/databases/' + name)
-
         message_returns = []
 
-        scroll = KarmaScrollable(limit=5, color=0xc0fefe, table=module_db, title="Top users with karma", inline=False)
+        def __init__(self):
+            super(Karma, self).__init__()
+            self.scroll = KarmaScrollable(limit=5, color=0xc0fefe, table=self.module_db, title="Top users with karma",
+                                          inline=False)
 
         async def contains_returns(self, message):
             for x in self.message_returns:
