@@ -44,7 +44,7 @@ class Status(BotModule):
             embed.add_field(name="Uptime", value=uptime_string, inline=True)
             embed.add_field(name="Loaded Modules", value=module_string, inline=True)
             embed.add_field(name="Bot version", value=self.bot_version, inline=True)
-            embed.add_field(name="Donate", value="QuickRecon: `0xDbB84334a1717E49168369df76F1A21694Ca9696`\nEmerald: `0x93F69Af0e0E12AE0A3217dC61910d4479E4eC3d2`", inline=True)
+            embed.add_field(name="Donate", value="https://www.patreon.com/scubot", inline=True)
             embed.set_footer(text="Powered by scubot: https://github.com/scubot/scubot")
             await client.send_message(message.channel, embed=embed)
         else:
