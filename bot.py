@@ -6,7 +6,7 @@ bot = commands.Bot(command_prefix="?", description="scubot")
 info_path = "info.json"
 token_path = "token.json"
 
-startup_modules = ['modules.status', 'modules.karma']
+startup_modules = ['modules.status', 'modules.karma', 'modules.role']
 for x in startup_modules:
     print("[LOAD] " + x)
     bot.load_extension(x)
@@ -41,6 +41,7 @@ print("..######...######..##.....##.########...#######..########\n"
       ".##....##.##....##.##.....##.##.....##.##.....##....##...\n"
       "..######...######...#######..########...#######.....##...")
 print("----------------------------------------------------------")
+print("v" + info["version"])
 print("Logging in...")
 
 bot.run(token)
