@@ -11,6 +11,7 @@ class Karma(commands.Cog):
     cooldown_time = 30
 
     def __init__(self, bot):
+        self.version = "2.0.0"
         self.bot = bot
         self.db = TinyDB('./modules/databases/karma')
 
