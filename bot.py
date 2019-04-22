@@ -9,7 +9,12 @@ token_path = "token.json"
 startup_modules = ['modules.status', 'modules.karma', 'modules.role']
 for x in startup_modules:
     print("[LOAD] " + x)
-    bot.load_extension(x)
+    try:
+        bot.load_extension(x)
+    except Exception as e:
+        print(e)
+        print("[LOAD] [WARN] " + x + " could not be loaded. Skipping...")
+
 print("All modules loaded.")
 
 
