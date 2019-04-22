@@ -1,8 +1,8 @@
 import discord
-from modules.botModule import *
+from modules_old.botModule import *
 import shlex
 import time
-import modules.reactionscroll as rs
+import modules_old.reactionscroll as rs
 
 
 class KarmaScrollable(rs.Scrollable):

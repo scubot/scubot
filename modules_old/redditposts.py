@@ -1,7 +1,7 @@
 import discord
 import requests
 import asyncio
-from modules.botModule import BotModule
+from modules_old.botModule import BotModule
 
 
 class RedditPost(BotModule):

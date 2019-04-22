@@ -1,6 +1,6 @@
 import discord
 import shlex
-from modules.botModule import BotModule
+from modules_old.botModule import BotModule
 
 
 class Roles(BotModule):

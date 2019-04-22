@@ -49,7 +49,7 @@ from modules.units import *
 #import your module
 from modules.feature import *
 
-# Add your module to the list of active modules
+modules_old
 BotModule.loaded_modules = [Units(), Feature()]
 
 ```

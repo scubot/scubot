@@ -1,7 +1,7 @@
 from collections import namedtuple
 import re
 import discord
-from modules.botModule import BotModule
+from modules_old.botModule import BotModule
 
 
 class Units(BotModule):

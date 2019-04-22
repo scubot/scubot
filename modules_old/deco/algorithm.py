@@ -1,8 +1,8 @@
 from collections import namedtuple
-from modules.deco.constants import DecoConstants
+from modules_old.deco.constants import DecoConstants
 import math
 import copy
-from modules.deco.utilities import *
+from modules_old.deco.utilities import *
 
 class DecoAlgorithm(DecoConstants):
     # Gas structures

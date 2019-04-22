@@ -1,5 +1,5 @@
 import discord
-from modules.botModule import *
+from modules_old.botModule import *
 from tinydb import TinyDB, Query
 import shlex
 import time

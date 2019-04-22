@@ -1,5 +1,5 @@
 import discord
-from modules.botModule import BotModule
+from modules_old.botModule import BotModule
 import shlex
 
 
@@ -9,7 +9,7 @@ class Help(BotModule):
     description = 'This provides help for other '  # description of its function
 
     help_text = "Write !help followed by the name of the module to access it's help text, for example !help Units " \
-                ' will access the help for the Units module. Type !help Modules to see loaded modules.'  # help text for explaining how to do things
+                ' will access the help for the Units module. Type !help Modules to see loaded modules_old.'  # help text for explaining how to do things
 
     trigger_string = 'help'  # string to listen for as trigger
 
@@ -23,12 +23,12 @@ class Help(BotModule):
             await self.send_message(client, message, "Help: \n\n" + self.help_text)
         else:
             module_name = msg[1].lower()
-            if module_name == 'modules':
+            if module_name == 'modules_old':
                 module_string = ''
                 for botModule in self.loaded_modules:
                     module_string += botModule.name + ', '
                 module_string = module_string[:-2]
-                await self.send_message(client, message, 'Loaded modules: \n\n' + module_string)
+                await self.send_message(client, message, 'Loaded modules_old: \n\n' + module_string)
             for botModule in self.loaded_modules:
                 if botModule.name == module_name:
                     if botModule.help_text == '':

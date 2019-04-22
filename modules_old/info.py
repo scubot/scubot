@@ -1,5 +1,5 @@
 import discord
-from modules.botModule import BotModule
+from modules_old.botModule import BotModule
 import shlex
 
 

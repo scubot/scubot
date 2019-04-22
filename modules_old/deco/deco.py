@@ -1,5 +1,5 @@
-from modules.botModule import BotModule
-from modules.deco.algorithm import *
+from modules_old.botModule import BotModule
+from modules_old.deco.algorithm import *
 import shlex
 
 

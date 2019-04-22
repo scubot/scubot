@@ -25,7 +25,7 @@ class BotModule:
     module_version = '0.0.0'
 
     def __init__(self):
-        self.module_db = TinyDB('./modules/databases/' + self.name)
+        self.module_db = TinyDB('./modules_old/databases/' + self.name)
 
     async def parse_command(self, message, client):
         raise NotImplementedError("Parse function not implemented in module:" + self.name)
