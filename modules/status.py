@@ -40,7 +40,7 @@ class Status(commands.Cog):
         embed = discord.Embed(title="Status", description="Status and information about this bot", color=0x008080)
         embed.add_field(name="Uptime", value=uptime_string, inline=True)
         embed.add_field(name="Loaded Modules", value=module_string, inline=True)
-        js = self.get_bot_version("info.json")
+        js = self.get_bot_version("config.json")
         embed.add_field(name="Bot version", value=js["version"], inline=True)
         embed.add_field(name="Donate", value=js["donation_link"], inline=True)
         embed.set_footer(text="Powered by scubot: https://github.com/scubot/scubot")
