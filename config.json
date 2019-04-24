@@ -1,7 +1,12 @@
 {
-  "version": "2.0.0",
   "source": "https://github.com/scubot/scubot",
-  "donation_link" : "https://www.paypal.me/theansoncheung",
+  "load_modules" : [
+    "modules.status",
+    "modules.karma",
+    "modules.role",
+    "modules.loader"
+  ]
+  ,
   "moderation_roles": [
     "moderators",
     "admins"

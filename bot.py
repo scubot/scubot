@@ -6,11 +6,18 @@ from discord.ext import commands
 import json
 
 bot = commands.Bot(command_prefix="?", description="scubot")
-info_path = "config.json"
+bot.version = "2.0.0"
+
+config_path = "config.json"
 token_path = "token.json"
 
-startup_modules = ['modules.status', 'modules.karma', 'modules.role', 'modules.loader']
-for x in startup_modules:
+if config_path:
+    with open(config_path, 'r') as f:
+        bot.configs = json.load(f)
+else:
+    print("[WARN] No config.json file found! Will try to continue loading.")
+
+for x in bot.configs["load_modules"]:
     print("[LOAD] " + x)
     try:
         bot.load_extension(x)
@@ -19,10 +26,6 @@ for x in startup_modules:
         print("[WARN] " + x + " could not be loaded. Skipping...")
 
 print("All modules loaded.")
-
-if info_path:
-    with open(info_path, 'r') as f:
-        info = json.load(f)
 
 if token_path:
     with open(token_path, 'r') as g:
@@ -42,7 +45,7 @@ print("..######...######..##.....##.########...#######..########\n"
       ".##....##.##....##.##.....##.##.....##.##.....##....##...\n"
       "..######...######...#######..########...#######.....##...")
 print("----------------------------------------------------------")
-print("v" + info["version"])
+print("v" + bot.version)
 print("Logging in...")
 
 
