@@ -6,21 +6,21 @@ class Loader(commands.Cog):
         self.version = "1.0.0"
         self.bot = bot
 
-    @commands.has_any_role('moderator', 'admin', 'devs')
+    @commands.has_any_role('moderators', 'admin', 'devs')
     @commands.command()
     async def reload(self, ctx, *, module: str):
         print("[LOAD] Reloading " + module)
         self.bot.reload_extension(module)
         await ctx.send("[:ok_hand:] Module " + module + " was reloaded.")
 
-    @commands.has_any_role('moderator', 'admin', 'devs')
+    @commands.has_any_role('moderators', 'admin', 'devs')
     @commands.command()
     async def load(self, ctx, *, module: str):
         print("[LOAD] Loading " + module)
         self.bot.load_extension(module)
         await ctx.send("[:ok_hand:] Module " + module + " was loaded.")
 
-    @commands.has_any_role('moderator', 'admin', 'devs')
+    @commands.has_any_role('moderators', 'admin', 'devs')
     @commands.command()
     async def unload(self, ctx, *, module: str):
         print("[LOAD] Unloading " + module)
@@ -31,7 +31,10 @@ class Loader(commands.Cog):
     @load.error
     @unload.error
     async def loading_error_handler(self, ctx, error):
-        print("[WARN] " + str(error.original))
+        if isinstance(error, commands.errors.CommandInvokeError):
+            print("[WARN] " + str(error.original))
+        else:
+            return
         if isinstance(error.original, commands.ExtensionNotLoaded):
             await ctx.send("[!] Module not already loaded.")
             return
