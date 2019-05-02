@@ -34,7 +34,7 @@ class Karma(commands.Cog):
     scrolling_cache = []
 
     def __init__(self, bot):
-        self.version = "2.0.0"
+        self.version = "2.0.1"
         self.bot = bot
         self.db = TinyDB('./modules/databases/karma')
         self.scroll = KarmaScrollable(limit=5, color=0xc0fefe, table=self.db, title="Top users with karma",
@@ -72,8 +72,8 @@ class Karma(commands.Cog):
             user_last_react = cooldown.get(target_user.userid == userid)['lastreact']
         return time_now > user_last_react + self.cooldown_time
 
-    @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
+    @commands.Cog.listener("on_reaction_add")
+    async def on_reaction_add_karma(self, reaction, user):
         react_text = reaction.emoji
         if type(reaction.emoji) is not str:
             react_text = reaction.emoji.name
@@ -94,8 +94,8 @@ class Karma(commands.Cog):
                 self.db.update({'karma': new_karma}, target_user.userid == reaction.message.author.id)
             cooldown_table.update({'lastreact': time_now}, target_user.userid == user.id)
 
-    @commands.Cog.listener()
-    async def on_reaction_remove(self, reaction, user):
+    @commands.Cog.listener("on_reaction_remove")
+    async def on_reaction_remove_karma(self, reaction, user):
         react_text = reaction.emoji
         if type(reaction.emoji) is not str:
             react_text = reaction.emoji.name
@@ -137,8 +137,8 @@ class Karma(commands.Cog):
         await m.add_reaction("⏪")
         await m.add_reaction("⏩")
 
-    @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
+    @commands.Cog.listener("on_reaction_add")
+    async def on_reaction_add_scroll(self, reaction, user):
         if not await self.contains_returns(reaction.message):
             return
         pos = await self.find_pos(reaction.message)
