@@ -56,8 +56,6 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    if hasattr(ctx.command, 'on_error'):
-        return
     if isinstance(error, discord.ext.commands.CommandNotFound):  # Command not found, not our fault.
         return
     if isinstance(error, discord.ext.commands.MissingRequiredArgument):  # Missing some sort of argument - who knows?
