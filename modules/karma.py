@@ -4,7 +4,7 @@ from discord.ext import commands
 import discord
 from discord.utils import find
 from tinydb import *
-import modules.reactionscroll as rs
+import reactionscroll as rs
 
 
 class KarmaScrollable(rs.Scrollable):
