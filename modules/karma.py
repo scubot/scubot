@@ -34,7 +34,7 @@ class Karma(commands.Cog):
     scrolling_cache = []
 
     def __init__(self, bot):
-        self.version = "2.0.2"
+        self.version = "2.0.3"
         self.bot = bot
         self.db = TinyDB('./modules/databases/karma')
         self.scroll = KarmaScrollable(limit=5, color=0xc0fefe, table=self.db, title="Top users with karma",
