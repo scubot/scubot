@@ -3,24 +3,24 @@ from discord.ext import commands
 
 class Loader(commands.Cog):
     def __init__(self, bot):
-        self.version = "1.0.0"
+        self.version = "1.0.1"
         self.bot = bot
 
-    @commands.has_any_role('moderators', 'admin', 'devs')
+    @commands.has_any_role('Moderators', 'Admin', 'devs')
     @commands.command()
     async def reload(self, ctx, *, module: str):
         print("[LOAD] Reloading " + module)
         self.bot.reload_extension(module)
         await ctx.send("[:ok_hand:] Module " + module + " was reloaded.")
 
-    @commands.has_any_role('moderators', 'admin', 'devs')
+    @commands.has_any_role('Moderators', 'Admin', 'devs')
     @commands.command()
     async def load(self, ctx, *, module: str):
         print("[LOAD] Loading " + module)
         self.bot.load_extension(module)
         await ctx.send("[:ok_hand:] Module " + module + " was loaded.")
 
-    @commands.has_any_role('moderators', 'admin', 'devs')
+    @commands.has_any_role('Moderators', 'Admin', 'devs')
     @commands.command()
     async def unload(self, ctx, *, module: str):
         print("[LOAD] Unloading " + module)
