@@ -1,8 +1,9 @@
-import time
-from discord.ext import commands
-import discord
 import json
+import time
+import uuid
 
+import discord
+from discord.ext import commands
 
 class Status(commands.Cog):
     def __init__(self, bot):
@@ -20,7 +21,11 @@ class Status(commands.Cog):
     def loaded_modules(self):
         load = ''
         for key, value in self.bot.cogs.items():
-            load += key + " (" + value.version + ")" + ", "
+            try:
+                uuid.UUID(key)
+                continue
+            except ValueError:
+                load += key + " (" + value.version + ")" + ", "
         return load[:-2]
 
     def get_latency(self):
