@@ -1,0 +1,4 @@
+discord == 0.16.12
+tinydb
+requests 
+
