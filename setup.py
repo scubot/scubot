@@ -16,10 +16,10 @@ setuptools.setup(
         "discord"
 
         "noaa @ git+https://github.com/scubot/noaa.git"
-        "@",
+        "@rewrite"
 
         "noaa @ git+https://github.com/scubot/tags.git"
-        "@"
+        "@package"
     ],
     entry_points={
         'scubot': 'bot.main'
