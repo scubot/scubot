@@ -79,8 +79,6 @@ class Karma(commands.Cog):
             react_text = reaction.emoji.name
         if user.id == reaction.message.author.id:  # Cannot star/lionfish own message
             return
-        if reaction.message.author.bot:  # Ignore reactions towards bots
-            return
 
         if self.cooled_down(user.id):
             cooldown_table = self.db.table('cooldown')
@@ -102,8 +100,6 @@ class Karma(commands.Cog):
         if type(reaction.emoji) is not str:
             react_text = reaction.emoji.name
         if user.id == reaction.message.author.id:  # Cannot star/lionfish own message
-            return
-        if reaction.message.author.bot:  # Ignore reactions towards bots
             return
 
         if self.cooled_down(user.id):
