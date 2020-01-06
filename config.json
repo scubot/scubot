@@ -4,9 +4,11 @@
     "modules.status",
     "modules.karma",
     "modules.role",
-    "modules.loader",
     "modules.help",
     "modules.listeners",
+    "modules.loader",
+    "modules.dispatch",
+    "modules.dispatch_example"
   ]
   ,
   "moderation_roles": [
