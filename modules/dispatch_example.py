@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from modules.dispatch import EmbedChain
+from modules.dispatch import EmbedChain, EmbedEntry
 from util.missingdependency import MissingDependencyException
 
 
@@ -12,7 +12,7 @@ class DispatchExample(commands.Cog):
 
     @staticmethod
     def create_embedchain(pages: int) -> EmbedChain:
-        return EmbedChain([["Hello", x] for x in range(1, pages+1)], limit=1, color=0x64c891, title="Dispatch Example",
+        return EmbedChain([EmbedEntry("Hello", x) for x in range(1, pages+1)], limit=1, color=0x64c891, title="Dispatch Example",
                           inline=True)
 
     @commands.group(invoke_without_command=True)

@@ -4,12 +4,18 @@ from discord.ext import commands
 from typing import List, Mapping, Any
 
 
+class EmbedEntry:
+    def __init__(self, title, content):
+        self.title = title
+        self.content = content
+
+
 class EmbedChain:
     contents = []
     current_position = 0
 
     # Should pass a list of lists?
-    def __init__(self, data: List[List[Any]], *, limit: int, color: int, title: str, inline: bool):
+    def __init__(self, data: List[EmbedEntry], *, limit: int, color: int, title: str, inline: bool):
         # Literally copy-pasted this from reactionscroll...
         counter = 1
         page = 1
@@ -20,7 +26,7 @@ class EmbedChain:
             page = math.ceil(counter / limit)
             if counter % limit == 0:
                 # Last one in this embed object, now append and make a new object
-                embed.add_field(name=item[0], value=item[1], inline=inline)
+                embed.add_field(name=item.title, value=item.content, inline=inline)
                 self.contents.append(embed)
                 del embed
                 embed = discord.Embed(title=title, color=color)
@@ -28,12 +34,12 @@ class EmbedChain:
                     text="Page " + str(page + 1) + " of " + str(math.ceil(len(data) / limit)))
             elif counter == len(data):
                 # Last one in loop
-                embed.add_field(name=item[0], value=item[1], inline=inline)
+                embed.add_field(name=item.title, value=item.content, inline=inline)
                 self.contents.append(embed)
                 del embed
             else:
                 # Else, nothing special needs to be done.
-                embed.add_field(name=item[0], value=item[1], inline=inline)
+                embed.add_field(name=item.title, value=item.content, inline=inline)
             counter += 1
 
     def next(self) -> discord.Embed:
