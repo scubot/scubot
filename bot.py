@@ -66,6 +66,9 @@ async def on_command_error(ctx, error):
         return
     if isinstance(error, discord.ext.commands.ExtensionError):
         return  # Already handled in loader
+    if isinstance(error, discord.ext.commands.errors.BadArgument):
+        await ctx.send("[!] Invalid argument.")
+        return
 
     print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
     traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
