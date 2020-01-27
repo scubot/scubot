@@ -11,6 +11,7 @@ class Listeners(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_ready(self):
+		print("\n-------------------")
 		print("Bot logged in successfully:")
 		print(f"User: {str(self.bot.user)}")
 		print(f"ID: {self.bot.user.id}")
