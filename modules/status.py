@@ -1,14 +1,13 @@
-import time
+import datetime
 from discord.ext import commands
 import discord
-import json
 
 
 class Status(commands.Cog):
     def __init__(self, bot):
-        self.version = "2.1.0"
+        self.version = "2.1.1"
         self.bot = bot
-        self.start_time = time.time()
+        self.start_time = datetime.datetime.utcnow()
 
     @staticmethod
     def uptime_convert(seconds):
@@ -18,23 +17,18 @@ class Status(commands.Cog):
         return days, hours, minutes, seconds
 
     def loaded_modules(self):
-        load = ''
-        for key, value in self.bot.cogs.items():
-            load += key + " (" + value.version + ")" + ", "
-        return load[:-2]
+        return ", ".join((f"{key} ({value.version})" for k, v in self.bot.cogs.items()))
 
     def get_latency(self):
         return "{:0.2f}ms".format((self.bot.latency * 1000))
 
     @commands.command()
     async def status(self, ctx):
-        uptime = time.time() - self.start_time
-        uptime_string = [str(round(x, 0))[:-2] for x in self.uptime_convert(uptime)]
-        uptime_string = uptime_string[0] + 'd ' + uptime_string[1] + 'h ' + uptime_string[2] + 'm ' + uptime_string[
-            3] + 's'
+        self.current_time = datetime.datetime.utcnow()
+        d, h, m, s = uptime_convert((current_time - self.start_time).seconds)
         module_string = self.loaded_modules()
         embed = discord.Embed(title="Status", description="Status and information about this bot", color=0x008080)
-        embed.add_field(name="Uptime", value=uptime_string, inline=False)
+        embed.add_field(name="Uptime", value=f"{d}d {h}h {m}m {s}s", inline=False)
         embed.add_field(name="Loaded Modules", value=module_string, inline=False)
         embed.add_field(name="Bot version", value=self.bot.version, inline=False)
         embed.add_field(name="Latency", value=self.get_latency(), inline=False)
