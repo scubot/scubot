@@ -21,7 +21,7 @@ except FileNotFoundError:
     sys.exit()
 
 try:
-    with open(token_path, 'r') as fp:
+    with open(TOKEN_PATH, 'r') as fp:
         token = json.load(fp)["token"]
 except FileNotFoundError:
     print("[FATAL] No token file found. Startup aborted.")
