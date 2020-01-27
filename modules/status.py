@@ -23,7 +23,7 @@ class Status(commands.Cog):
 
     @commands.command()
     async def status(self, ctx):
-        self.current_time = datetime.datetime.utcnow()
+        current_time = datetime.datetime.utcnow()
         d, h, m, s = self.uptime_convert((current_time - self.start_time).seconds)
         module_string = self.loaded_modules()
         embed = discord.Embed(title="Status", description="Status and information about this bot", color=0x008080)
