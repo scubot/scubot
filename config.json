@@ -8,7 +8,7 @@
     "modules.listeners",
     "modules.loader",
     "modules.dispatch",
-    "modules.dispatch_example"
+    "modules.examples.dispatch_example"
   ]
   ,
   "moderation_roles": [
