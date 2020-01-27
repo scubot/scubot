@@ -10,10 +10,10 @@ class CustomHelpCommand(commands.HelpCommand):
             colour=0x008080
         )
         command_mapping = {}
-        for name, cog in self.context.bot.cogs.values():
+        for cog in self.context.bot.cogs.values():
             cog_commands = await self.filter_commands(cog.get_commands(), sort=True)
             if cog_commands:
-                command_mapping[name] = [c.name for c in cog_commands]
+                command_mapping[cog.qualified_name] = [c.name for c in cog_commands]
 
         available_command_str = "\n".join(
             [f"{name}: {', '.join(commands)}" for name, commands in command_mapping.values()]
