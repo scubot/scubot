@@ -4,8 +4,8 @@
     "modules.status",
     "modules.karma",
     "modules.role",
-    "modules.loader"
-    "modules.help"
+    "modules.loader",
+    "modules.help",
     "modules.listeners"
   ]
   ,
