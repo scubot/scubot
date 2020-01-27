@@ -16,7 +16,13 @@ class Status(commands.Cog):
         return days, hours, minutes, seconds
 
     def loaded_modules(self):
-        return ", ".join((f"{k} ({v.version})" for k, v in self.bot.cogs.items()))
+        output = []
+        for name, cog in self.bot.cogs.items():
+            try:
+                output.append(f"{name} ({cog.version})")
+            except AttributeError:
+                pass
+        return ", ".join(output)
 
     def get_latency(self):
         return "{:0.2f}ms".format((self.bot.latency * 1000))
