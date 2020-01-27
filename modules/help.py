@@ -9,9 +9,16 @@ class CustomHelpCommand(commands.HelpCommand):
 			description=f"Use `{self.clean_prefix}help [command]` for more info on a command.", 
 			colour=0x008080
 		)
-		commands = await self.filter_commands(self.context.bot.commands, sort=True)
-		available_commands = f"```\n{', '.join([command.name for command in commands])}\n```"
-		emb.add_field(name="Available Commands", value=available_commands)
+		command_mapping = {}
+		for name, cog in self.context.bot.cogs:
+			cog_commands = await self.filter_commands(cog.get_commands(), sort=True)
+			if cog_commands:
+				command_mapping[name] = [c.name for c in cog_commands]
+
+		available_command_str = "\n".join(
+			[f"{name}: {', '.join(commands)}" for name, commands in command_mapping.values()]
+		)
+		emb.add_field(name="Available Commands", value=available_command_str)
 		await self.context.send(embed=emb)
 
 	async def send_command_help(self, command):
