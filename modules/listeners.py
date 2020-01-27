@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import traceback
+import sys
 
 
 class Listeners(commands.Cog):
