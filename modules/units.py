@@ -44,7 +44,7 @@ class Units(commands.Cog):
 	@commands.command()
 	async def convert(self, ctx, amount=None, unit=None):
 		"""
-		This module supports two types of conversion, explicit and implicit.
+		This command supports two types of conversion, explicit and implicit.
 		Explicit conversion takes the form "!convert <number> <unit>" (e.g !convert 10 ft) and will post a conversion.
 		Implicit conversion takes the form of "!convert" or "!convert all", "!convert" looks through the past 10 messages and converts the first unit it finds.
 		Alternatively, by using "!convert all" it will convert all the units found in the past 10 messages.
@@ -89,6 +89,9 @@ class Units(commands.Cog):
 
 	@commands.command()
 	async def units(self, ctx):
+		"""
+		Show all units available to be converted by the convert command along with their abbreviations.
+		"""
 		embed = discord.Embed(title="All available units:", colour=0x008080)
 		embed.description = "\n".join((f"{k} = {v}" for k, v in SYMBOL_MAP.items()))
 		embed.set_footer(text="Powered by scubot: https://github.com/scubot/scubot")

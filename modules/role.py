@@ -8,6 +8,9 @@ class Role(commands.Cog):
 
     @commands.command()
     async def role(self, ctx, *, role: discord.Role = None):
+        """
+        Add yourself the specified role group.
+        """
         if role is None:
             return await ctx.send("[!] You did not specify a role.")
         try:
@@ -18,6 +21,9 @@ class Role(commands.Cog):
 
     @commands.command()
     async def derole(self, ctx, *, role: discord.Role = None):
+        """
+        Remove yourself from the specified role group.
+        """
         if role is None:
             return await ctx.send("[!] You did not specify a role.")
         try:
