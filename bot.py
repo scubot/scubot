@@ -1,76 +1,62 @@
 import sys
-import traceback
-
 import discord
 from discord.ext import commands
 import json
+import time
 
-bot = commands.Bot(command_prefix="?", description="scubot")
-bot.version = "2.0.0"
 
-config_path = "config.json"
-token_path = "token.json"
+PREFIX = "?"
+DESCRIPTION = "scubot"
+BOT_VERSION = "2.0.0"
+CONFIG_PATH = "config.json"
+TOKEN_PATH = "token.json"
 
-if config_path:
-    with open(config_path, 'r') as f:
-        bot.configs = json.load(f)
-else:
-    print("[WARN] No config.json file found! Will try to continue loading.")
 
-for x in bot.configs["load_modules"]:
-    print("[LOAD] " + x)
-    try:
-        bot.load_extension(x)
-    except Exception as e:
-        print(e)
-        print("[WARN] " + x + " could not be loaded. Skipping...")
+try:
+    with open(CONFIG_PATH, 'r') as fp:
+        config = json.load(fp)
+        modules_to_load = config["load_modules"]
+except FileNotFoundError:
+    print("[FATAL] No config.json file found. Startup aborted.")
+    sys.exit()
 
-print("All modules loaded.")
+try:
+    with open(token_path, 'r') as fp:
+        token = json.load(fp)["token"]
+except FileNotFoundError:
+    print("[FATAL] No token file found. Startup aborted.")
+    sys.exit()
 
-if token_path:
-    with open(token_path, 'r') as g:
-        token = json.load(g)["token"]
-else:
-    print("Token location not specified... Quiting")
-
-if not token:
-    print("No token found. Please put your token in token.json...")
-    quit()
-
-print("..######...######..##.....##.########...#######..########\n"
-      ".##....##.##....##.##.....##.##.....##.##.....##....##...\n"
-      ".##.......##.......##.....##.##.....##.##.....##....##...\n"
-      "..######..##.......##.....##.########..##.....##....##...\n"
-      ".......##.##.......##.....##.##.....##.##.....##....##...\n"
-      ".##....##.##....##.##.....##.##.....##.##.....##....##...\n"
-      "..######...######...#######..########...#######.....##...")
-print("----------------------------------------------------------")
-print("v" + bot.version)
+print("""
+----------------------------------------------------------
+..######...######..##.....##.########...#######..########
+.##....##.##....##.##.....##.##.....##.##.....##....##...
+.##.......##.......##.....##.##.....##.##.....##....##...
+..######..##.......##.....##.########..##.....##....##...
+.......##.##.......##.....##.##.....##.##.....##....##...
+.##....##.##....##.##.....##.##.....##.##.....##....##...
+..######...######...#######..########...#######.....##...
+----------------------------------------------------------
+""")
+print(f"v{BOT_VERSION}")
 print("Logging in...")
 
 
-@bot.event
-async def on_ready():
-    print('Bot online as ' + str(bot.user))
+def run_bot():
+    bot = commands.Bot(command_prefix=PREFIX, description=DESCRIPTION, case_insensitive=True)
+    bot.version = BOT_VERSION
+    if len(modules_to_load) != 0:
+        for module in modules_to_load:
+            try:
+                bot.load_extension(module)
+                print(f"[LOAD] Successfully loaded extension {module}")
+            except Exception as e:
+                print(e)
+                print(f"[ERROR] Failed to load extension {module}, continuing.")
+    bot.run(token)
 
 
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, discord.ext.commands.CommandNotFound):  # Command not found, not our fault.
-        return
-    if isinstance(error, discord.ext.commands.MissingRequiredArgument):  # Missing some sort of argument - who knows?
-        await ctx.send("[!] Missing required argument.")
-        return
-    if isinstance(error, discord.ext.commands.CheckFailure):
-        await ctx.send("[!] I'm sorry " + ctx.author.name + ", I'm afraid I can't do that.")
-        return
-    if isinstance(error, discord.ext.commands.ExtensionError):
-        return  # Already handled in loader
-    if isinstance(error, discord.ext.commands.errors.BadArgument):
-        await ctx.send(f"[!] Invalid argument: {error.args[0]}")
-        return
-
-    print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-    traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-
-bot.run(token)
+if __name__ == '__main__':
+    while True:
+        run_bot()
+        time.sleep(5)
