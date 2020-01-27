@@ -16,7 +16,7 @@ class CustomHelpCommand(commands.HelpCommand):
                 command_mapping[cog.qualified_name] = [c.name for c in cog_commands]
 
         available_command_str = "\n".join(
-            [f"{name}: {', '.join(commands)}" for name, commands in command_mapping.values()]
+            [f"{name}: {', '.join(commands)}" for name, commands in command_mapping.items()]
         )
         emb.add_field(name="Available Commands", value=available_command_str)
         await self.context.send(embed=emb)
