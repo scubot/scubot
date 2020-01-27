@@ -9,8 +9,7 @@ class Status(commands.Cog):
         self.bot = bot
         self.start_time = datetime.datetime.utcnow()
 
-    @staticmethod
-    def uptime_convert(seconds):
+    def uptime_convert(self, seconds):
         minutes, seconds = divmod(seconds, 60)
         hours, minutes = divmod(minutes, 60)
         days, hours = divmod(hours, 24)
@@ -25,7 +24,7 @@ class Status(commands.Cog):
     @commands.command()
     async def status(self, ctx):
         self.current_time = datetime.datetime.utcnow()
-        d, h, m, s = uptime_convert((current_time - self.start_time).seconds)
+        d, h, m, s = self.uptime_convert((current_time - self.start_time).seconds)
         module_string = self.loaded_modules()
         embed = discord.Embed(title="Status", description="Status and information about this bot", color=0x008080)
         embed.add_field(name="Uptime", value=f"{d}d {h}h {m}m {s}s", inline=False)
