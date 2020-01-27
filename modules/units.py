@@ -33,6 +33,7 @@ CONVERSION_RATES = {
 class Units(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		self.version = "2.0.0"
 
 	def convert_unit(self, amount, unit):
 		if unit in SYMBOL_MAP.keys():

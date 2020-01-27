@@ -35,6 +35,7 @@ class Help(commands.Cog):
 		self._original_help_command = bot.help_command
 		bot.help_command = CustomHelpCommand()
 		bot.help_command.cog = self
+		self.version = "1.0.0"
 
 	def cog_unload(self):
 		self.bot.help_command = self._original_help_command

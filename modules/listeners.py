@@ -7,6 +7,7 @@ import sys
 class Listeners(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		self.version = "1.0.0"
 
 	@commands.Cog.listener()
 	async def on_ready(self):
