@@ -89,7 +89,7 @@ class Units(commands.Cog):
 	@commands.command()
 	async def units(self, ctx):
 		embed = discord.Embed(title="All available units:", colour=0x008080)
-		embed.description = "\n".join((f"{k} = {v}" for k, v in SYMBOL_MAP))
+		embed.description = "\n".join((f"{k} = {v}" for k, v in SYMBOL_MAP.items()))
 		embed.set_footer(text="Powered by scubot: https://github.com/scubot/scubot")
 		return await ctx.send(embed=embed)
 
