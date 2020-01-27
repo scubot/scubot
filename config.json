@@ -5,6 +5,8 @@
     "modules.karma",
     "modules.role",
     "modules.loader"
+    "modules.help"
+    "modules.listeners"
   ]
   ,
   "moderation_roles": [
