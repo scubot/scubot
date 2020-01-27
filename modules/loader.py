@@ -29,16 +29,16 @@ class Loader(commands.Cog):
 
     async def cog_command_error(self, ctx, error):
         if isinstance(error, commands.errors.CommandInvokeError):
-            print(f"[WARN] {str(error.original)}")
-        elif isinstance(error.original, commands.ExtensionNotLoaded):
+            print(f"[WARN] {str(error)}")
+        elif isinstance(error, commands.ExtensionNotLoaded):
             await ctx.send("[!] Module not already loaded.")
-        elif isinstance(error.original, commands.ExtensionAlreadyLoaded):
+        elif isinstance(error, commands.ExtensionAlreadyLoaded):
             await ctx.send("[!] Module already loaded.")
-        elif isinstance(error.original, commands.ExtensionNotFound):
+        elif isinstance(error, commands.ExtensionNotFound):
             await ctx.send("[!] Module not found!")
-        elif isinstance(error.original, commands.NoEntryPointError):
+        elif isinstance(error, commands.NoEntryPointError):
             await ctx.send("[!] Module has no entry point!")
-        elif isinstance(error.original, commands.ExtensionFailed):
+        elif isinstance(error, commands.ExtensionFailed):
             await ctx.send("[!] Module setup encountered execution error! Check logs for details.")
 
 
