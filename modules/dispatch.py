@@ -69,7 +69,10 @@ class Dispatcher(commands.Cog):
     async def deregister(self, message: discord.Message):
         self.tracker.pop(message)
 
-    async def update(self, reaction):
+    async def embed_update(self, message: discord.Message, new_embed: EmbedChain):
+        self.tracker[message.id] = new_embed
+
+    async def reaction_update(self, reaction):
         if reaction.message.id not in self.tracker:
             return
         embed = self.tracker[reaction.message.id]
@@ -85,11 +88,11 @@ class Dispatcher(commands.Cog):
 
     @commands.Cog.listener("on_reaction_add")
     async def on_reaction_add_scroll(self, reaction, user):
-        await self.update(reaction)
+        await self.reaction_update(reaction)
 
     @commands.Cog.listener("on_reaction_remove")
     async def on_reaction_remove_scroll(self, reaction, user):
-        await self.update(reaction)
+        await self.reaction_update(reaction)
 
 
 def setup(bot):
