@@ -57,6 +57,4 @@ def run_bot():
 
 
 if __name__ == '__main__':
-    while True:
-        run_bot()
-        time.sleep(5)
+    run_bot()
