@@ -9,7 +9,8 @@ class Status(commands.Cog):
         self.bot = bot
         self.start_time = datetime.datetime.utcnow()
 
-    def uptime_convert(self, seconds):
+    @staticmethod
+    def uptime_convert(seconds):
         minutes, seconds = divmod(seconds, 60)
         hours, minutes = divmod(minutes, 60)
         days, hours = divmod(hours, 24)
@@ -21,7 +22,7 @@ class Status(commands.Cog):
             try:
                 output.append(f"{name} ({cog.version})")
             except AttributeError:
-                pass
+                output.append(f"{name} (?.?.?)")
         return ", ".join(output)
 
     def get_latency(self):
@@ -29,6 +30,9 @@ class Status(commands.Cog):
 
     @commands.command()
     async def status(self, ctx):
+        """
+        Show general information about scubot.
+        """
         current_time = datetime.datetime.utcnow()
         d, h, m, s = self.uptime_convert((current_time - self.start_time).seconds)
         module_string = self.loaded_modules()

@@ -14,7 +14,6 @@ class Loader(commands.Cog):
             elif isinstance(error.original, commands.errors.ExtensionAlreadyLoaded):
                 return await ctx.send("[!] Module already loaded.")
             elif isinstance(error.original, commands.errors.ExtensionNotFound):
-                print("YEEET")
                 return await ctx.send("[!] Module not found!")
             elif isinstance(error.original, commands.errors.NoEntryPointError):
                 return await ctx.send("[!] Module has no entry point!")
@@ -24,6 +23,9 @@ class Loader(commands.Cog):
     @commands.has_any_role('Moderators', 'Admin', 'devs')
     @commands.command()
     async def reload(self, ctx, *, module: str):
+        """
+        Reload the specified bot module.
+        """
         print(f"[LOAD] Reloading {module}")
         self.bot.reload_extension(module)
         await ctx.send(f"[:ok_hand:] Module {module} was reloaded.")
@@ -31,6 +33,9 @@ class Loader(commands.Cog):
     @commands.has_any_role('Moderators', 'Admin', 'devs')
     @commands.command()
     async def load(self, ctx, *, module: str):
+        """
+        Load the specified bot module.
+        """
         print(f"[LOAD] Loading {module}")
         self.bot.load_extension(module)
         await ctx.send(f"[:ok_hand:] Module {module} was loaded.")
@@ -38,6 +43,9 @@ class Loader(commands.Cog):
     @commands.has_any_role('Moderators', 'Admin', 'devs')
     @commands.command()
     async def unload(self, ctx, *, module: str):
+        """
+        Unload the specified bot module.
+        """
         print(f"[LOAD] Unloading {module}")
         self.bot.unload_extension(module)
         await ctx.send(f"[:ok_hand:] Module {module} was unloaded.")

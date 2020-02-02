@@ -41,10 +41,10 @@ class Units(commands.Cog):
         result = amount * CONVERSION_RATES[unit]
         return f"{amount} {unit} is equal to {result:.2f} {UNIT_PAIRS[unit]}."
 
-    @commands.command()
-    async def convert(self, ctx, amount=None, unit=None):
-        """
-		This module supports two types of conversion, explicit and implicit.
+	@commands.command()
+	async def convert(self, ctx, amount=None, unit=None):
+		"""
+		This command supports two types of conversion, explicit and implicit.
 		Explicit conversion takes the form "!convert <number> <unit>" (e.g !convert 10 ft) and will post a conversion.
 		Implicit conversion takes the form of "!convert" or "!convert all", "!convert" looks through the past 10 messages and converts the first unit it finds.
 		Alternatively, by using "!convert all" it will convert all the units found in the past 10 messages.
