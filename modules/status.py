@@ -2,6 +2,8 @@ import datetime
 from discord.ext import commands
 import discord
 
+DEFAULT_VERSION = "(?.?.?)"
+
 
 class Status(commands.Cog):
     def __init__(self, bot):
@@ -19,10 +21,10 @@ class Status(commands.Cog):
     def loaded_modules(self):
         output = []
         for name, cog in self.bot.cogs.items():
-            try:
+            if hasattr(cog, "version"):
                 output.append(f"{name} ({cog.version})")
-            except AttributeError:
-                output.append(f"{name} (?.?.?)")
+            else:
+                output.append(f"{name} {DEFAULT_VERSION}")
         return ", ".join(output)
 
     def get_latency(self):
