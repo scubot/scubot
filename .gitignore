@@ -103,3 +103,6 @@ ENV/
 # make sure that tokens aren't accidentally pushed
 token
 token.json
+
+# IntelliJ
+.idea/
