@@ -1,10 +1,9 @@
 import sys
 from discord.ext import commands
 import json
-import time
 
 
-PREFIX = "?"
+PREFIX = "!"
 DESCRIPTION = "scubot"
 BOT_VERSION = "2.0.0"
 CONFIG_PATH = "config.json"

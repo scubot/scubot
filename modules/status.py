@@ -21,6 +21,10 @@ class Status(commands.Cog):
     def loaded_modules(self):
         output = []
         for name, cog in self.bot.cogs.items():
+            if hasattr(cog, "visible"):
+                if not cog.visible:
+                    continue
+
             if hasattr(cog, "version"):
                 output.append(f"{name} ({cog.version})")
             else:

@@ -7,7 +7,6 @@
     "modules.loader",
     "modules.help",
     "modules.listeners",
-    "modules.units"
   ]
   ,
   "moderation_roles": [
