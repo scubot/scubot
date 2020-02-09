@@ -5,7 +5,7 @@ import json
 
 PREFIX = "!"
 DESCRIPTION = "scubot"
-BOT_VERSION = "2.0.0"
+BOT_VERSION = "2.1.0"
 CONFIG_PATH = "config.json"
 TOKEN_PATH = "token.json"
 
