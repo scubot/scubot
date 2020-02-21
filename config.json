@@ -7,7 +7,6 @@
     "modules.karma",
     "modules.help",
     "modules.listeners",
-    "modules.examples.dispatch_example"
   ]
   ,
   "moderation_roles": [
