@@ -1,7 +1,7 @@
 import discord
 import math
 from discord.ext import commands
-from typing import List, Mapping, Any
+from typing import List
 
 
 class EmbedEntry:
@@ -73,6 +73,8 @@ class Dispatcher(commands.Cog):
         self.tracker[message.id] = new_embed
 
     async def reaction_update(self, reaction):
+        if reaction.me:
+            return
         if reaction.message.id not in self.tracker:
             return
         embed = self.tracker[reaction.message.id]
