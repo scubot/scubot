@@ -1,12 +1,13 @@
 {
   "source": "https://github.com/scubot/scubot",
   "load_modules" : [
-    "modules.status",
-    "modules.loader",
     "modules.dispatch",
-    "modules.karma",
     "modules.help",
+    "modules.karma",
     "modules.listeners",
+    "modules.loader",
+    "modules.role",
+    "modules.status"
   ]
   ,
   "moderation_roles": [
