@@ -57,7 +57,7 @@ class Dispatcher(commands.Cog):
     tracker = {}
 
     def __init__(self, bot):
-        self.version = "0.1.0"
+        self.version = "1.0.0"
         self.bot = bot
 
     async def register(self, message: discord.Message, embed: EmbedChain):

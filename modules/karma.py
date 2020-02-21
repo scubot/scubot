@@ -14,7 +14,7 @@ class Karma(commands.Cog):
     scrolling_cache = []
 
     def __init__(self, bot):
-        self.version = "2.0.3"
+        self.version = "3.0.0"
         self.bot = bot
         self.db = TinyDB('./modules/databases/karma')
         self.dispatcher = bot.get_cog("Dispatcher")
