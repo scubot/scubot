@@ -6,8 +6,7 @@
     "modules.dispatch",
     "modules.help",
     "modules.listeners",
-    "modules.examples.dispatch_example",
-    "modules.dispatch"
+    "modules.examples.dispatch_example"
   ]
   ,
   "moderation_roles": [
