@@ -15,8 +15,8 @@ Once you have that, take your bot account's Token and put it into a file named `
 Included are a few simple modules that are considered to be core functionality for a bot. If you want to make your own, [read more about modules here](modules_old/aboutmodules.md).
 
 ## To-do list
-- [ ] Rewrite core bot to v1.0
+- [x] Rewrite core bot to v1.0
 - [ ] Implement CI
-- [ ] Rewrite commonly-used and core modules to Cogs
+- [x] Rewrite commonly-used and core modules to Cogs
 - [ ] Rewrite documentation
 - [ ] ??? profit
