@@ -1,1 +1,0 @@
-This folder is where database files for the various modules appear, the databases are managed using [TinyDB](https://pypi.python.org/pypi/tinydb).
