@@ -4,6 +4,7 @@
     "modules.status",
     "modules.loader",
     "modules.dispatch",
+    "modules.karma",
     "modules.help",
     "modules.listeners",
     "modules.examples.dispatch_example"

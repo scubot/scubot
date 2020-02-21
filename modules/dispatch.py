@@ -11,11 +11,10 @@ class EmbedEntry:
 
 
 class EmbedChain:
-    contents = []
-    current_position = 0
-
     # Should pass a list of lists?
     def __init__(self, data: List[EmbedEntry], *, limit: int, color: int, title: str, inline: bool):
+        self.contents = []
+        self.current_position = 0
         # Literally copy-pasted this from reactionscroll...
         counter = 1
         page = 1
