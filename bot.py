@@ -1,74 +1,61 @@
+import sys
+import traceback
+
 import discord
-
-from modules.units import *
-from modules.roles import *
-from modules.help import *
-from modules.status import *
-from modules.redditposts import *
-from modules.karma import *
-from modules.info import *
-from modules.deco.deco import *
+from discord.ext import commands
+import json
 
 
-from modules.botModule import *
-
-client = discord.Client()
-
-bot_version = '1.1.0'
-
-BotModule.loaded_modules = [Units(), Roles(), Help(), Status(bot_version), Karma(), Info(), Deco()]  # Reddit module removed as it prevented startup
+PREFIX = "!"
+DESCRIPTION = "scubot"
+BOT_VERSION = "2.1.0"
+CONFIG_PATH = "config.json"
+TOKEN_PATH = "token.json"
 
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    for bot_module in BotModule.loaded_modules:
-        if message.content.startswith(bot_module.trigger_char + bot_module.trigger_string):
-            await bot_module.parse_command(message, client)
-    for bot_module in BotModule.loaded_modules:
-        if bot_module.trigger_on_mention and message.mentions:
-            await bot_module.on_mention(message, client)
-
-
-@client.event
-async def on_reaction_add(reaction, user):
-    if user == client.user:
-        return
-    for bot_module in BotModule.loaded_modules:
-        if bot_module.listen_for_reaction:
-            await bot_module.on_reaction_add(reaction, client, user)
-
-
-@client.event
-async def on_reaction_remove(reaction, user):
-    if user == client.user:
-        return
-    for bot_module in BotModule.loaded_modules:
-        if bot_module.listen_for_reaction:
-            await bot_module.on_reaction_remove(reaction, client, user)
-
-
-@client.event
-async def on_ready():
-    print('Login success. Your details:')
-    print('User:', client.user.name)
-    print('ID', client.user.id)
-    print('----------')
-
-
-print('scubot v' + bot_version)
 try:
-    tokenFile = open('token')
+    with open(CONFIG_PATH, 'r') as fp:
+        config = json.load(fp)
+        modules_to_load = config["load_modules"]
 except FileNotFoundError:
-    print('Token not found. Please make sure you have a token file in this directory.'
-          ' Refer to README.md for details on getting a token.')
-    quit()
-print('Token found. Logging in...')
-token = tokenFile.read().replace('\n', '')
+    print("[FATAL] No config.json file found. Startup aborted.")
+    sys.exit()
 
-for bot_module in BotModule.loaded_modules:
-    if bot_module.has_background_loop:
-        client.loop.create_task(bot_module.background_loop(client))
+try:
+    with open(TOKEN_PATH, 'r') as fp:
+        token = json.load(fp)["token"]
+except FileNotFoundError:
+    print("[FATAL] No token file found. Startup aborted.")
+    sys.exit()
 
-client.run(token)
+print("""
+----------------------------------------------------------
+..######...######..##.....##.########...#######..########
+.##....##.##....##.##.....##.##.....##.##.....##....##...
+.##.......##.......##.....##.##.....##.##.....##....##...
+..######..##.......##.....##.########..##.....##....##...
+.......##.##.......##.....##.##.....##.##.....##....##...
+.##....##.##....##.##.....##.##.....##.##.....##....##...
+..######...######...#######..########...#######.....##...
+----------------------------------------------------------
+""")
+print(f"v{BOT_VERSION}")
+print("Logging in...")
+
+
+def run_bot():
+    bot = commands.Bot(command_prefix=PREFIX, description=DESCRIPTION, case_insensitive=True)
+    bot.version = BOT_VERSION
+    if len(modules_to_load) != 0:
+        for module in modules_to_load:
+            try:
+                bot.load_extension(module)
+                print(f"[LOAD] Successfully loaded extension {module}")
+            except Exception as e:
+                print(e)
+                print(f"[ERROR] Failed to load extension {module}, continuing.")
+    bot.run(token)
+
+
+if __name__ == '__main__':
+    run_bot()

@@ -1,44 +1,59 @@
 import discord
-from modules.botModule import BotModule
-import shlex
+from discord.ext import commands
 
 
-class Help(BotModule):
-    name = 'help'  # name of your module
+class CustomHelpCommand(commands.HelpCommand):
+    async def send_bot_help(self, mapping):
+        emb = discord.Embed(
+            title="Scubot Help",
+            description=f"Use `{self.clean_prefix}help [command]` for more info on a command.",
+            colour=0x008080
+        )
+        command_mapping = {}
+        for cog in self.context.bot.cogs.values():
+            cog_commands = await self.filter_commands(cog.get_commands(), sort=True)
+            if cog_commands:
+                command_mapping[cog.qualified_name] = [c.name for c in cog_commands]
 
-    description = 'This provides help for other '  # description of its function
+        available_command_str = "\n".join(
+            [f"{name}: `{', '.join(commands)}`" for name, commands in command_mapping.items()]
+        )
+        emb.add_field(name="Available Commands", value=available_command_str)
+        await self.context.send(embed=emb)
 
-    help_text = "Write !help followed by the name of the module to access it's help text, for example !help Units " \
-                ' will access the help for the Units module. Type !help Modules to see loaded modules.'  # help text for explaining how to do things
+    async def send_command_help(self, command):
+        emb = discord.Embed(title="Scubot Help", description=f"```{self.get_command_signature(command)}```",
+                            colour=0x008080)
+        emb.add_field(name="Details", value=command.help or "No details available.", inline=False)
+        emb.add_field(name="Aliases",
+                      value=f"```{', '.join(command.aliases)}```" if command.aliases else "No aliases exist.",
+                      inline=False)
+        await self.context.send(embed=emb)
 
-    trigger_string = 'help'  # string to listen for as trigger
+    async def send_group_help(self, group):
+        emb = discord.Embed(title="Scubot Help",
+                            description=f"Help for `{group.name}` command group.\nUse `{self.clean_prefix}help {group.name} [command]` for more info on a command.",
+                            colour=0x008080)
+        emb.add_field(name="Details", value=group.help or "No details available.", inline=False)
+        emb.add_field(name="Available Subcommands",
+                      value=f"```\n{', '.join([command.name for command in group.commands])}\n```", inline=False)
+        await self.context.send(embed=emb)
 
-    module_version = '1.0.0'
+    def get_command_signature(self, command):
+        return '{0.clean_prefix}{1.qualified_name} {1.signature}'.format(self, command)
 
-    direct_mode = True  # Send messages via DM instead of in the channel
 
-    async def parse_command(self, message, client):
-        msg = shlex.split(message.content)
-        if len(msg) == 1:
-            await self.send_message(client, message, "Help: \n\n" + self.help_text)
-        else:
-            module_name = msg[1].lower()
-            if module_name == 'modules':
-                module_string = ''
-                for botModule in self.loaded_modules:
-                    module_string += botModule.name + ', '
-                module_string = module_string[:-2]
-                await self.send_message(client, message, 'Loaded modules: \n\n' + module_string)
-            for botModule in self.loaded_modules:
-                if botModule.name == module_name:
-                    if botModule.help_text == '':
-                        await self.send_message(client, message, botModule.name + ' has no help text, tell the module '
-                                                                                  'maintainer to fix it')
-                    else:
-                        await self.send_message(client, message, botModule.name + ": \n\n " + botModule.help_text)
+class Help(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self._original_help_command = bot.help_command
+        bot.help_command = CustomHelpCommand()
+        bot.help_command.cog = self
+        self.version = "1.0.0"
 
-    async def send_message(self, client, message, send):
-        if self.direct_mode:
-            await client.send_message(message.author, send)
-        else:
-            await client.send_message(message.channel, send)
+    def cog_unload(self):
+        self.bot.help_command = self._original_help_command
+
+
+def setup(bot):
+    bot.add_cog(Help(bot))

@@ -12,11 +12,11 @@ Before starting the bot up, make sure to set up a bot account first! You can do 
 
 Once you have that, take your bot account's Token and put it into a file named `token` in the same directory as `bot.py`.
 
-Included are a few simple modules that are considered to be core functionality for a bot. If you want to make your own, [read more about modules here](modules/aboutmodules.md).
+Included are a few simple modules that are considered to be core functionality for a bot. If you want to make your own, [read more about modules here](modules_old/aboutmodules.md).
 
 ## To-do list
-- [x] Unit conversion between commonly used units
-- [x] Assign users roles
-- [x] Auto post links to reddit content
-- [ ] Store diver's certifications
-- [ ] Become self-aware and generate snorkel memes
+- [x] Rewrite core bot to v1.0
+- [ ] Implement CI
+- [x] Rewrite commonly-used and core modules to Cogs
+- [ ] Rewrite documentation
+- [ ] ??? profit
