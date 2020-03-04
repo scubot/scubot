@@ -8,7 +8,6 @@ class DispatchExample(commands.Cog):
     def __init__(self, bot):
         self.version = "0.1.0"
         self.bot = bot
-        self.dispatcher = bot.get_cog("Dispatcher")
 
     @staticmethod
     def create_embedchain(pages: int) -> EmbedChain:
@@ -18,8 +17,11 @@ class DispatchExample(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def dispatch_example(self, ctx, pages: int = 5):
+        dispatcher = self.bot.get_cog("Dispatcher")
+        if not dispatcher:
+            raise MissingDependencyException("Dispatcher")
         embed: EmbedChain = self.create_embedchain(pages)
-        await self.dispatcher.register(await ctx.send(embed=embed.current()), embed)
+        await dispatcher.register(await ctx.send(embed=embed.current()), embed)
 
 
 def setup(bot):

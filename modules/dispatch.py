@@ -54,11 +54,11 @@ class EmbedChain:
 
 
 class Dispatcher(commands.Cog):
-    tracker = {}
 
     def __init__(self, bot):
         self.version = "1.0.0"
         self.bot = bot
+        self.tracker = {}
 
     async def register(self, message: discord.Message, embed: EmbedChain):
         self.tracker[message.id] = embed
@@ -72,8 +72,6 @@ class Dispatcher(commands.Cog):
         self.tracker[message.id] = new_embed
 
     async def reaction_update(self, reaction):
-        if reaction.me:
-            return
         if reaction.message.id not in self.tracker:
             return
         embed = self.tracker[reaction.message.id]
@@ -89,11 +87,13 @@ class Dispatcher(commands.Cog):
 
     @commands.Cog.listener("on_reaction_add")
     async def on_reaction_add_scroll(self, reaction, user):
-        await self.reaction_update(reaction)
+        if not user.bot:
+            await self.reaction_update(reaction)
 
     @commands.Cog.listener("on_reaction_remove")
     async def on_reaction_remove_scroll(self, reaction, user):
-        await self.reaction_update(reaction)
+        if not user.bot:
+            await self.reaction_update(reaction)
 
 
 def setup(bot):
