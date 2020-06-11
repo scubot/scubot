@@ -1,0 +1,3 @@
+discord.py >= 1.0.1
+tinydb
+requests 
