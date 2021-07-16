@@ -1,17 +1,14 @@
+import json
 import sys
-import traceback
 
 import discord
 from discord.ext import commands
-import json
-
 
 PREFIX = "!"
 DESCRIPTION = "scubot"
 BOT_VERSION = "2.2.0"
 CONFIG_PATH = "config.json"
 TOKEN_PATH = "token.json"
-
 
 try:
     with open(CONFIG_PATH, 'r') as fp:
