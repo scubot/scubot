@@ -8,8 +8,11 @@
     "modules.loader",
     "modules.role",
     "modules.status"
-  ]
-  ,
+  ],
+  "intents": {
+    "presences": false,
+    "members": true
+  },
   "moderation_roles": [
     "moderators",
     "admins"
