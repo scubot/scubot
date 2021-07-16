@@ -8,7 +8,7 @@ import json
 
 PREFIX = "!"
 DESCRIPTION = "scubot"
-BOT_VERSION = "2.1.0"
+BOT_VERSION = "2.2.0"
 CONFIG_PATH = "config.json"
 TOKEN_PATH = "token.json"
 
@@ -17,6 +17,7 @@ try:
     with open(CONFIG_PATH, 'r') as fp:
         config = json.load(fp)
         modules_to_load = config["load_modules"]
+        configIntents = config["intents"]
 except FileNotFoundError:
     print("[FATAL] No config.json file found. Startup aborted.")
     sys.exit()
@@ -44,7 +45,11 @@ print("Logging in...")
 
 
 def run_bot():
-    bot = commands.Bot(command_prefix=PREFIX, description=DESCRIPTION, case_insensitive=True)
+    intents = discord.Intents.default()
+    intents.presences = configIntents["presences"]
+    intents.members = configIntents["members"]
+
+    bot = commands.Bot(command_prefix=PREFIX, description=DESCRIPTION, case_insensitive=True, intents=intents)
     bot.version = BOT_VERSION
     if len(modules_to_load) != 0:
         for module in modules_to_load:
