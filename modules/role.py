@@ -7,28 +7,42 @@ class Role(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def role(self, ctx, *, role: discord.Role = None):
+    async def role(self, ctx):
         """
         Add yourself the specified role group.
         """
-        if role is None:
+        role = ctx.message.content[5:].strip().split(" ")[-1].lower()
+        if role == "":
             return await ctx.send("[!] You did not specify a role.")
         try:
-            await ctx.author.add_roles(role)
-            await ctx.send(f"[:ok_hand:] Assigned you to {role.name}.")
+            roles = ctx.guild.roles
+            x = {}
+            for i in roles:
+                x[i.name.lower()] = i
+            if role in x:
+                await ctx.author.add_roles(x[role])
+                await ctx.send(f"[:ok_hand:] Assigned you to {role}.")
+            else:
+                return await ctx.send("[!] Role does not exist!")
         except discord.Forbidden:
             await ctx.send("[!] Could not assign you to that role.")
 
     @commands.command()
-    async def derole(self, ctx, *, role: discord.Role = None):
+    async def derole(self, ctx):
         """
         Remove yourself from the specified role group.
         """
-        if role is None:
-            return await ctx.send("[!] You did not specify a role.")
+        role = ctx.message.content[5:].strip().split(" ")[-1].lower()
+        roles = ctx.guild.roles
         try:
-            await ctx.author.remove_roles(role)
-            await ctx.send(f"[:ok_hand:] Removed you from {role.name}.")
+            x = {}
+            for i in roles:
+                x[i.name.lower()] = i
+            if role in x:
+                await ctx.author.remove_roles(x[role])
+                await ctx.send(f"[:ok_hand:] Removed you from {role}.")
+            else:
+                return await ctx.send("[!] Role does not exist!")
         except discord.Forbidden:
             await ctx.send("[!] Could not remove you from that role.")
 
