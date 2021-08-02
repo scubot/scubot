@@ -33,8 +33,10 @@ class Role(commands.Cog):
         Remove yourself from the specified role group.
         """
         role = ctx.message.content[5:].strip().split(" ")[-1].lower()
-        roles = ctx.guild.roles
+        if role == "":
+            return await ctx.send("[!] You did not specify a role.")
         try:
+            roles = ctx.guild.roles
             x = {}
             for i in roles:
                 x[i.name.lower()] = i
